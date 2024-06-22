@@ -22,14 +22,14 @@ To run this project locally, follow these steps:
 5. **Import Database:**
    - Select the `shop_db` from the left sidebar.
    - Click on the "Import" tab.
-   - Choose the `.sql` file from this repository (you can find it at `/path/to/your/sql/file.sql`) and click "Go".
+   - Choose the `.sql` file from this repository and click "Go".
 
 6. **Configure the Application:**
-   - Clone this repository: `git clone https://github.com/yourusername/your-repo.git`
+   - Clone this repository: `git clone https://github.com/Nahidh96/AgriConnect.git`
    - Move the cloned files to your XAMPP's `htdocs` directory (usually located at `C:\xampp\htdocs` on Windows or `/Applications/XAMPP/htdocs` on macOS).
 
 7. **Access the Website:**
-   - Open your web browser and go to `http://localhost/your-repo` to see the website in action.
+   - Open your web browser and go to `http://localhost/agriconnect/` to see the website in action.
 
 ## Usage
 
