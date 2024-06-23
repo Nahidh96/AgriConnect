@@ -43,8 +43,8 @@ To run this project locally, follow these steps:
 
 ## License
 
-- Include the license under which your project is distributed (e.g., MIT License).
+- Apache License 2.0.
 
 ## Contact
 
-- Provide your contact information or a way for others to reach you if they have questions or want to collaborate.
+- mnmnahidh@gmail.com.
