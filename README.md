@@ -21,13 +21,13 @@ To run this project locally, follow these steps:
 
 4. **Create a new database:**
    - Click on the "New" button on the left-hand side menu.
-     ![Create Database](https://github.com/Nahidh96/AgriConnect/readmefiles/createdb.png)
+     ![Create Database](https://github.com/Nahidh96/AgriConnect/blob/master/readmefiles/clickimportdb.png?raw=true)
    - Enter `shop_db` as the database name and click "Create".
 
 5. **Import Database:**
    - Select the `shop_db` from the left sidebar.
    - Click on the "Import" tab.
-     ![Import Database](https://github.com/Nahidh96/AgriConnect/readmefiles/clickimportdb.png)
+     ![Import Database](https://github.com/Nahidh96/AgriConnect/blob/master/readmefiles/clickimportdb.png?raw=true)
    - Choose the `.sql` file from this repository and click "Go".
 
 6. **Access the Website:**
