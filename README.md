@@ -37,6 +37,13 @@ To run this project locally, follow these steps:
 
 - Describe how to use your website, any login credentials if required, and any other relevant information.
 
+## Technology Stack
+
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** PHP
+- **Database:** MySQL
+- **Tools:** XAMPP, phpMyAdmin
+
 ## Contributing
 
 - If you'd like to contribute to this project, fork the repository and create a pull request. You can also open issues for bugs or feature requests.
