@@ -131,6 +131,18 @@ if(!isset($admin_id)){
       <a href="admin_contacts.php" class="btn">see messages</a>
       </div>
 
+      <div class="box">
+      <?php
+         $select_ads = $conn->prepare("SELECT * FROM `ads`");
+         $select_ads->execute();
+         $number_of_ads = $select_ads->rowCount();
+      ?>
+      <h3><?= $number_of_ads; ?></h3>
+      <p>total ads</p>
+      <a href="admin_ads.php" class="btn">see ads</a>
+      </div>
+
+
    </div>
 
 </section>

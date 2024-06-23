@@ -91,9 +91,11 @@ if(isset($_POST['add_to_cart'])){
    <link rel="stylesheet" href="css/style.css">
 
 </head>
-<body>
+<body class="custom-bghome">
    
 <?php include 'header.php'; ?>
+<?php include 'ads.php'; ?>
+<?php display_ads(); ?>
 
 <div class="home-bg">
 
