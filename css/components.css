@@ -12,6 +12,24 @@
    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
 
+/* Add this to your components.css file */
+.custom-bg {
+   background: url('../project images/bg.png') no-repeat center center fixed;
+   background-size: cover;
+   position: relative;
+}
+
+.custom-bg::before {
+   content: "";
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: rgba(0, 0, 0, 0.65); /* Adjust the transparency (0.6 for 60%) */
+   z-index: -1;
+}
+
 *{
    font-family: 'Rubik', sans-serif;
    margin:0; padding:0;

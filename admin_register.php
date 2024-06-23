@@ -63,7 +63,7 @@ if(isset($_POST['submit'])){
    <link rel="stylesheet" href="css/components.css">
 
 </head>
-<body>
+<body class="custom-bg">
 
 <?php
 
