@@ -31,6 +31,7 @@
          <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
          <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
          <a href="https://www.linkedin.com/in/nahidh-naseem-419916228/"> <i class="fab fa-linkedin"></i> linkedin </a>
+         <a href="https://github.com/Nahidh96/"> <i class="fab fa-github"></i> github </a>
       </div>
 
    </section>

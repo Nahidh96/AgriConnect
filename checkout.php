@@ -25,30 +25,41 @@ if(isset($_POST['order'])){
    $placed_on = date('d-M-Y');
 
    $cart_total = 0;
-   $cart_products[] = '';
+   $cart_products = [];
+   $sellers_orders = [];
 
-   $cart_query = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
+   $cart_query = $conn->prepare("SELECT c.*, p.seller_id FROM `cart` c JOIN `products` p ON c.pid = p.id WHERE c.user_id = ?");
    $cart_query->execute([$user_id]);
    if($cart_query->rowCount() > 0){
       while($cart_item = $cart_query->fetch(PDO::FETCH_ASSOC)){
          $cart_products[] = $cart_item['name'].' ( '.$cart_item['quantity'].' )';
          $sub_total = ($cart_item['price'] * $cart_item['quantity']);
          $cart_total += $sub_total;
-      };
-   };
+         $sellers_orders[$cart_item['seller_id']][] = $cart_item;
+      }
+   }
 
    $total_products = implode(', ', $cart_products);
 
-   $order_query = $conn->prepare("SELECT * FROM `orders` WHERE name = ? AND number = ? AND email = ? AND method = ? AND address = ? AND total_products = ? AND total_price = ?");
-   $order_query->execute([$name, $number, $email, $method, $address, $total_products, $cart_total]);
-
    if($cart_total == 0){
       $message[] = 'your cart is empty';
-   }elseif($order_query->rowCount() > 0){
-      $message[] = 'order placed already!';
-   }else{
-      $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on) VALUES(?,?,?,?,?,?,?,?,?)");
-      $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $total_products, $cart_total, $placed_on]);
+   } else {
+      foreach ($sellers_orders as $seller_id => $orders) {
+         $seller_products = [];
+         $seller_total = 0;
+         foreach ($orders as $order) {
+            $seller_products[] = $order['name'].' ( '.$order['quantity'].' )';
+            $seller_total += ($order['price'] * $order['quantity']);
+         }
+         $seller_products_str = implode(', ', $seller_products);
+         $order_query = $conn->prepare("SELECT * FROM `orders` WHERE name = ? AND number = ? AND email = ? AND method = ? AND address = ? AND total_products = ? AND total_price = ? AND seller_id = ?");
+         $order_query->execute([$name, $number, $email, $method, $address, $seller_products_str, $seller_total, $seller_id]);
+
+         if($order_query->rowCount() == 0){
+            $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on, seller_id) VALUES(?,?,?,?,?,?,?,?,?,?)");
+            $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $seller_products_str, $seller_total, $placed_on, $seller_id]);
+         }
+      }
       $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
       $delete_cart->execute([$user_id]);
       $message[] = 'order placed successfully!';
@@ -88,14 +99,14 @@ if(isset($_POST['order'])){
             $cart_total_price = ($fetch_cart_items['price'] * $fetch_cart_items['quantity']);
             $cart_grand_total += $cart_total_price;
    ?>
-   <p> <?= $fetch_cart_items['name']; ?> <span>(<?= '$'.$fetch_cart_items['price'].'/- x '. $fetch_cart_items['quantity']; ?>)</span> </p>
+   <p> <?= $fetch_cart_items['name']; ?> <span>(<?= 'Rs.'.$fetch_cart_items['price'].'/- x '. $fetch_cart_items['quantity']; ?>)</span> </p>
    <?php
     }
    }else{
       echo '<p class="empty">your cart is empty!</p>';
    }
    ?>
-   <div class="grand-total">grand total : <span>$<?= $cart_grand_total; ?>/-</span></div>
+   <div class="grand-total">grand total : <span>Rs.<?= $cart_grand_total; ?>/-</span></div>
 </section>
 
 <section class="checkout-orders">
@@ -157,13 +168,6 @@ if(isset($_POST['order'])){
    </form>
 
 </section>
-
-
-
-
-
-
-
 
 <?php include 'footer.php'; ?>
 

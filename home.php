@@ -94,8 +94,6 @@ if(isset($_POST['add_to_cart'])){
 <body class="custom-bghome">
    
 <?php include 'header.php'; ?>
-<?php include 'ads.php'; ?>
-<?php display_ads(); ?>
 
 <div class="home-bg">
 
@@ -120,44 +118,27 @@ if(isset($_POST['add_to_cart'])){
 
       <div class="box">
          <img src="images/cat-1.png" alt="">
-         <h3>fruits</h3>
-         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat.</p>
-         <a href="category.php?category=fruits" class="btn">fruits</a>
-      </div>
-
-      <div class="box">
-         <img src="images/cat-2.png" alt="">
-         <h3>Dairy</h3>
-         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat.</p>
-         <a href="category.php?category=meat" class="btn">meat</a>
+         <a href="category.php?category=fruits" class="cbtn">fruits</a>
       </div>
 
       <div class="box">
          <img src="images/cat-3.png" alt="">
-         <h3>vegitables</h3>
-         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat.</p>
-         <a href="category.php?category=vegitables" class="btn">vegitables</a>
+         <a href="category.php?category=vegitables" class="cbtn">vegitables</a>
       </div>
 
       <div class="box">
          <img src="images/cat-4.png" alt="">
-         <h3>Fertilizers</h3>
-         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat.</p>
-         <a href="category.php?category=fish" class="btn">fish</a>
+         <a href="category.php?category=fish" class="cbtn">Fertilizers</a>
       </div>
 
       <div class="box">
          <img src="images/cat-4.png" alt="">
-         <h3>Hire Equipment</h3>
-         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat.</p>
-         <a href="category.php?category=fish" class="btn">fish</a>
+         <a href="category.php?category=fish" class="cbtn">Rentals</a>
       </div>
 
       <div class="box">
          <img src="images/cat-4.png" alt="">
-         <h3>Startups</h3>
-         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat.</p>
-         <a href="category.php?category=fish" class="btn">fish</a>
+         <a href="category.php?category=fish" class="cbtn">Startups</a>
       </div>
 
    </div>
@@ -179,6 +160,7 @@ if(isset($_POST['add_to_cart'])){
    <form action="" class="box" method="POST">
       <div class="price">Rs.<span><?= $fetch_products['price']; ?></span>/-</div>
       <a href="view_page.php?pid=<?= $fetch_products['id']; ?>" class="fas fa-eye"></a>
+      <a href="chat_page.php?seller_id=<?= $fetch_products['seller_id']; ?>" class="fas fa-comments"></a>
       <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
       <div class="name"><?= $fetch_products['name']; ?></div>
       <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
@@ -199,12 +181,6 @@ if(isset($_POST['add_to_cart'])){
    </div>
 
 </section>
-
-
-
-
-
-
 
 <?php include 'footer.php'; ?>
 

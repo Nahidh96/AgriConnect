@@ -45,7 +45,7 @@ if(isset($message)){
          <a href="logout.php" class="delete-btn">logout</a>
          <div class="flex-btn">
             <a href="login.php" class="option-btn">login</a>
-            <a href="register.php" class="option-btn">register</a>
+            <a href="admin_register.php" class="option-btn">register</a>
          </div>
       </div>
 

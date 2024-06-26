@@ -43,10 +43,10 @@
    width: auto;
 }
 
-.home-category .box-container{
+.home-category .box-container {
    display: grid;
-   grid-template-columns: repeat(auto-fit, 27rem);
-   gap:1.5rem;
+   grid-template-columns: repeat(auto-fit, minmax(20rem, 5fr));
+   gap: 1.5rem;
    justify-content: center;
    align-items: flex-start;
 }
