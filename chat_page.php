@@ -44,6 +44,64 @@ $messages->execute([$user_id, $seller_id, $seller_id, $user_id]);
    <title>Chat with Seller</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
+   <style>
+      body {
+         font-family: Arial, sans-serif;
+         background-color: #f5f5f5;
+         margin: 0;
+         padding: 0;
+      }
+      .chat {
+         max-width: 800px;
+         margin: 20px auto;
+         background-color: #fff;
+         padding: 20px;
+         border-radius: 8px;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .title {
+         text-align: center;
+         margin-bottom: 20px;
+         color: #333;
+      }
+      .messages {
+         max-height: 400px;
+         overflow-y: auto;
+         padding: 10px;
+         border: 1px solid #ddd;
+         border-radius: 4px;
+         margin-bottom: 20px;
+         font-size: 1.7rem;
+      }
+      .message {
+         padding: 10px;
+         margin-bottom: 10px;
+         border-radius: 4px;
+      }
+      .message p {
+         margin: 0;
+      }
+      .user {
+         background-color: #e6f2ff;
+         align-self: flex-end;
+      }
+      .seller {
+         background-color: #f0f0f0;
+         align-self: flex-start;
+      }
+      .message-form {
+         display: flex;
+         flex-direction: column;
+      }
+      .message-form textarea {
+         resize: none;
+         padding: 10px;
+         margin-bottom: 10px;
+         border-radius: 4px;
+         border: 1px solid #ddd;
+         font-size: 14px;
+      }
+   </style>
 </head>
 <body>
    

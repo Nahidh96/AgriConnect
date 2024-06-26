@@ -17,7 +17,7 @@ if(isset($message)){
 
    <div class="flex">
 
-      <a href="home.php" class="logo">AgriConenct<span>.</span></a>
+      <a href="home.php" class="logo">AgriConnect<span>.</span></a>
 
       <nav class="navbar">
          <a href="home.php">home</a>
@@ -25,6 +25,7 @@ if(isset($message)){
          <a href="orders.php">orders</a>
          <a href="about.php">about</a>
          <a href="contact.php">contact</a>
+         <a href="user_messages.php">messages</a> <!-- New link added -->
       </nav>
 
       <div class="icons">
