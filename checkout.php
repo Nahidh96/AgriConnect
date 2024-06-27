@@ -52,12 +52,17 @@ if(isset($_POST['order'])){
             $seller_total += ($order['price'] * $order['quantity']);
          }
          $seller_products_str = implode(', ', $seller_products);
+
+         // Calculate shares
+         $seller_share = $seller_total * 0.75;
+         $owner_share = $seller_total * 0.25;
+
          $order_query = $conn->prepare("SELECT * FROM `orders` WHERE name = ? AND number = ? AND email = ? AND method = ? AND address = ? AND total_products = ? AND total_price = ? AND seller_id = ?");
          $order_query->execute([$name, $number, $email, $method, $address, $seller_products_str, $seller_total, $seller_id]);
 
          if($order_query->rowCount() == 0){
-            $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on, seller_id) VALUES(?,?,?,?,?,?,?,?,?,?)");
-            $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $seller_products_str, $seller_total, $placed_on, $seller_id]);
+            $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on, seller_id, seller_share, owner_share) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+            $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $seller_products_str, $seller_total, $placed_on, $seller_id, $seller_share, $owner_share]);
          }
       }
       $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");

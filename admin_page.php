@@ -43,7 +43,7 @@ if(!isset($admin_id)){
          $select_pendings = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
          $select_pendings->execute(['pending']);
          while($fetch_pendings = $select_pendings->fetch(PDO::FETCH_ASSOC)){
-            $total_pendings += $fetch_pendings['total_price'];
+            $total_pendings += $fetch_pendings['owner_share'];
          };
       ?>
       <h3>$<?= $total_pendings; ?>/-</h3>
@@ -57,7 +57,7 @@ if(!isset($admin_id)){
          $select_completed = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
          $select_completed->execute(['completed']);
          while($fetch_completed = $select_completed->fetch(PDO::FETCH_ASSOC)){
-            $total_completed += $fetch_completed['total_price'];
+            $total_completed += $fetch_completed['owner_share'];
          };
       ?>
       <h3>$<?= $total_completed; ?>/-</h3>

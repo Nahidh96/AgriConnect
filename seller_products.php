@@ -7,26 +7,39 @@ session_start();
 
 $seller_id = $_SESSION['seller_id'];
 
-if(!isset($seller_id)){
+if (!isset($seller_id)) {
    header('location:login.php');
 }
 
-if(isset($_POST['add_product'])){
+if (isset($_POST['add_product'])) {
    $name = $_POST['name'];
    $price = $_POST['price'];
+   $category = $_POST['category'];
+   $details = $_POST['details'];
    $image = $_FILES['image']['name'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = 'uploaded_img/'.$image;
+   $image_folder = 'uploaded_img/' . $image;
 
-   $insert_product = $conn->prepare("INSERT INTO `products`(name, price, image, seller_id) VALUES(?,?,?,?)");
-   $insert_product->execute([$name, $price, $image, $seller_id]);
+   $insert_product = $conn->prepare("INSERT INTO `products`(name, category, details, price, image, seller_id) VALUES(?,?,?,?,?,?)");
+   $insert_product->execute([$name, $category, $details, $price, $image, $seller_id]);
 
-   if($insert_product){
+   if ($insert_product) {
       move_uploaded_file($image_tmp_name, $image_folder);
       $message[] = 'Product added successfully!';
-   }else{
+   } else {
       $message[] = 'Product could not be added!';
    }
+}
+
+if (isset($_GET['delete'])) {
+   $delete_id = $_GET['delete'];
+   $select_delete_image = $conn->prepare("SELECT image FROM `products` WHERE id = ?");
+   $select_delete_image->execute([$delete_id]);
+   $fetch_delete_image = $select_delete_image->fetch(PDO::FETCH_ASSOC);
+   unlink('uploaded_img/' . $fetch_delete_image['image']);
+   $delete_product = $conn->prepare("DELETE FROM `products` WHERE id = ?");
+   $delete_product->execute([$delete_id]);
+   header('location:seller_products.php');
 }
 
 ?>
@@ -51,6 +64,14 @@ if(isset($_POST['add_product'])){
    <form action="" method="POST" enctype="multipart/form-data">
       <input type="text" name="name" class="box" required placeholder="Enter product name">
       <input type="number" name="price" class="box" required placeholder="Enter product price">
+      <select name="category" class="box" required>
+         <option value="" selected disabled>Select category</option>
+         <option value="vegetables">Vegetables</option>
+         <option value="fruits">Fruits</option>
+         <option value="meat">Fertilizers</option>
+         <option value="fish">Rentals</option>
+      </select>
+      <textarea name="details" class="box" required placeholder="Enter product details" cols="30" rows="10"></textarea>
       <input type="file" name="image" class="box" required>
       <input type="submit" value="Add Product" name="add_product" class="btn">
    </form>
@@ -66,19 +87,21 @@ if(isset($_POST['add_product'])){
       <?php
          $select_products = $conn->prepare("SELECT * FROM `products` WHERE seller_id = ?");
          $select_products->execute([$seller_id]);
-         if($select_products->rowCount() > 0){
-            while($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)){
+         if ($select_products->rowCount() > 0) {
+            while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {
       ?>
       <div class="box">
          <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
          <div class="name"><?= $fetch_products['name']; ?></div>
          <div class="price">$<?= $fetch_products['price']; ?>/-</div>
+         <div class="cat"><?= $fetch_products['category']; ?></div>
+         <div class="details"><?= $fetch_products['details']; ?></div>
          <a href="seller_update_product.php?update=<?= $fetch_products['id']; ?>" class="btn">Update</a>
-         <a href="seller_delete_product.php?delete=<?= $fetch_products['id']; ?>" class="delete-btn">Delete</a>
+         <a href="seller_products.php?delete=<?= $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('Delete this product?');">Delete</a>
       </div>
       <?php
             }
-         }else{
+         } else {
             echo '<p class="empty">No products added yet!</p>';
          }
       ?>

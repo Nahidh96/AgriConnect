@@ -1,4 +1,3 @@
-// seller_header.php
 <?php
 
 if(isset($_POST['logout'])){
