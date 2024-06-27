@@ -91,7 +91,7 @@ if(isset($_POST['add_to_cart'])){
    <link rel="stylesheet" href="css/style.css">
 
 </head>
-<body class="custom-bghome">
+<body>
    
 <?php include 'header.php'; ?>
 
@@ -100,9 +100,9 @@ if(isset($_POST['add_to_cart'])){
    <section class="home">
 
       <div class="content">
-         <span>don't panic, go organice</span>
+         <span>Don't panic, Go organice</span>
          <h3>Reach For A Healthier You With Organic Foods</h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto natus culpa officia quasi, accusantium explicabo?</p>
+         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
          <a href="about.php" class="btn">about us</a>
       </div>
 

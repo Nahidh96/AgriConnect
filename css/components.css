@@ -8,6 +8,7 @@
    --light-color:#666;
    --white:#fff;
    --light-bg:#f6f6f6;
+   --light-gr:#dff0e2;
    --border:.2rem solid var(--black);
    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
