@@ -96,14 +96,15 @@ if(!isset($seller_id)){
       <div class="box">
       <h3>Promotions Discounts</h3>
       <?php
-         $promotions_query = $conn->prepare("SELECT id, name, discount FROM `promotions` WHERE seller_id = ?");
-         $promotions_query->execute([$seller_id]);
-         while($promotion = $promotions_query->fetch(PDO::FETCH_ASSOC)){
+      $promotions_query = $conn->prepare("SELECT id, discount FROM `promotions` WHERE seller_id = ?");
+      $promotions_query->execute([$seller_id]);
+      while($promotion = $promotions_query->fetch(PDO::FETCH_ASSOC)){
       ?>
-      <p>Promotion: <?= $promotion['name']; ?> | Discount: <?= $promotion['discount']; ?>%</p>
+      <p>Promotion ID: <?= $promotion['id']; ?> | Discount: <?= $promotion['discount']; ?>%</p>
       <?php
-         }
+      }
       ?>
+
       <a href="manage_promotions.php" class="btn">Manage</a>
       </div>
 

@@ -8,6 +8,54 @@
    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 
+/* style.css */
+
+/* Section Styles */
+.resources {
+   padding: 20px;
+   background-color: #f2f2f2;
+}
+
+.resources .title {
+   text-align: center;
+   margin-bottom: 20px;
+   color: #333;
+}
+
+.resource-list {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: 20px;
+}
+
+.resource {
+   background-color: #fff;
+   padding: 15px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.resource h2 {
+   font-size: 1.9rem;
+   margin-bottom: 10px;
+   color: #333;
+}
+
+.resource p {
+   font-size: 1.5rem;
+   color: #666;
+   margin-bottom: 15px;
+}
+
+.resource small {
+   display: block;
+   font-size: 1.1rem;
+   color: #999;
+   margin-top: 10px;
+}
+
+
 
 .home-bg .home{
    display: flex;
@@ -115,10 +163,39 @@
    color:var(--white);
 }
 
+.products .box-container .box .pre_order .preorder span{
+   position: absolute;
+   top:6.6rem; left:1rem;
+   padding:1rem;
+   border-radius: .5rem;
+   background-color: var(--orange);
+   font-weight: 450;
+   font-size: 1.8rem;
+   color:var(--white);
+   outline: #000;
+}
+
 .products .box-container .box .price span{
    font-size: 2.5rem;
    color:var(--white);
    margin:0 .2rem;
+}
+
+/* Add to your existing CSS file or style block */
+.products .box-container .box .price .price {
+   display: flex;
+   align-items: baseline;
+   margin-top: 5px;
+}
+
+.products .box-container .box .price .original-price {
+   text-decoration: line-through;
+   font-size: 1.8rem; /* Adjust as needed */
+   margin-right: 5px;
+}
+
+.products .box-container .box .price .discounted-price {
+   font-size: 2.5rem; /* Adjust as needed */
 }
 
 .products .box-container .box .fa-eye{
@@ -771,6 +848,8 @@
       border: none;
       padding: 0.5rem;
       padding-top: 0.5rem;
+      background:none;
+      box-shadow: none;
    }
 
    .home-bg .home .content{

@@ -30,6 +30,11 @@ if(isset($_POST['submit'])){
          $_SESSION['user_id'] = $row['id'];
          header('location:home.php');
 
+      }elseif($row['user_type'] == 'seller'){
+
+         $_SESSION['seller_id'] = $row['id'];
+         header('location:seller_page.php');
+
       }else{
          $message[] = 'no user found!';
       }

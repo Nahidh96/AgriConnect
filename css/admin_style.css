@@ -7,6 +7,60 @@
    align-items: flex-start;
 }
 
+/* Add this to your css/admin_style.css file */
+
+.forum {
+   padding: 20px;
+}
+
+.create-post,
+.add-comment {
+   margin-bottom: 20px;
+}
+
+.create-post input[type="text"],
+.create-post textarea,
+.add-comment textarea {
+   width: 100%;
+   padding: 10px;
+   margin-bottom: 10px;
+   border: 1px solid #ddd;
+}
+
+.create-post .btn,
+.add-comment .btn {
+   background-color: #5cb85c;
+   color: white;
+   padding: 10px;
+   border: none;
+   cursor: pointer;
+}
+
+.posts .post {
+   border: 1px solid #ddd;
+   padding: 15px;
+   margin-bottom: 20px;
+}
+
+.posts .post h2 {
+   margin-top: 0;
+}
+
+.posts .post .comments {
+   margin-top: 20px;
+   padding-top: 20px;
+   border-top: 1px solid #ddd;
+}
+
+.posts .post .comments .comment {
+   margin-bottom: 10px;
+}
+
+.posts .post .comments .comment p {
+   margin: 0;
+}
+
+
 .message-textarea {
    width: 100%;
    padding: 10px;
@@ -102,6 +156,43 @@
 }
 
 .add-products form textarea{
+   height: 20rem;
+   resize: none;
+}
+
+.resources form{
+   max-width: 70rem;
+   padding:2rem;
+   margin:0 auto;
+   text-align: center;
+   border:var(--border);
+   box-shadow: var(--box-shadow);
+   background-color: var(--white);
+   border-radius: .5rem;
+}
+
+.resources form .flex{
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+
+.resources form .flex .inputBox{
+   width: 49%;
+}
+
+.resources form .box{
+   width: 100%;
+   margin:1rem 0;
+   padding:1.2rem 1.4rem;
+   font-size: 1.8rem;
+   color:var(--black);
+   border-radius: .5rem;
+   background-color: var(--light-bg);
+   border:var(--border);
+}
+
+.resources form textarea{
    height: 20rem;
    resize: none;
 }

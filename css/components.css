@@ -1,14 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap');
 
 :root{
-   --green:#27ae60;
+   --green:#48a54b;
+   --othergreen:#27ae60;
    --orange:#f39c12;
    --red:#e74c3c;
    --black:#333;
-   --light-color:#666;
+   --logoblack:#3D3D3D;
+   --light-color:#666C66;
    --white:#fff;
-   --light-bg:#f6f6f6;
+   --light-bg:#f4f9f5;
    --light-gr:#dff0e2;
+   --header:#fefffe;
    --border:.2rem solid var(--black);
    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
@@ -82,6 +85,83 @@ section{
    opacity: .5;
 }
 
+
+
+.secondary-btn-s {
+   display: inline-block;
+   background-color: #fff; /* or a light background color */
+   color: var(--green); /* or the primary color */
+   border: 2px solid var(--green); /* or the primary color */
+   text-decoration: none;
+   font-weight: 500;
+   font-size: small;
+   padding: 8px 15px;
+   border-radius: 5rem;
+   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.secondary-btn {
+   display: block;
+   width: 100%;
+   margin-top: 1rem;
+   color:var(--white);
+   font-size: 2rem;
+   padding:1.3rem 3rem;
+   text-transform: capitalize;
+   cursor: pointer;
+   text-align: center;
+   background-color: #fff; /* or a light background color */
+   color: var(--green); /* or the primary color */
+   border: 2px solid var(--green); /* or the primary color */
+   text-decoration: none;
+   font-weight: 500;
+   padding: 8px 15px;
+   border-radius: 5rem;
+   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.outline-btn {
+   display: inline-block;
+   background-color: transparent;
+   color: var(--green); /* or the primary color */
+   border: 1px solid var(--green); /* or the primary color */
+   text-decoration: none;
+   padding: 8px 15px;
+   border-radius: 5rem;
+   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.danger-btn {
+   display: inline-block;
+   background-color: #ff4d4f; /* or any danger color */
+   color: #fff;
+   text-decoration: none;
+   padding: 8px 15px;
+   border-radius: 5rem;
+   transition: background-color 0.3s ease;
+}
+
+.disabled-btn {
+   display: inline-block;
+   background-color: #e0e0e0; /* or any disabled color */
+   color: #a0a0a0; /* or any disabled color */
+   text-decoration: none;
+   padding: 8px 15px;
+   border-radius: 5rem;
+   cursor: not-allowed;
+}
+
+.pre_order {
+   margin-top: 1px;
+   font-size: 14px;
+   color: #666;
+}
+
+.pre_order span {
+   font-weight: bold;
+}
+
+
 .btn,
 .delete-btn,
 .option-btn{
@@ -129,7 +209,7 @@ section{
 
 
 .btn{
-   background-color: var(--green);
+   background: linear-gradient(to right, #48a54b, #48a54b, #27ae60);
 }
 
 .delete-btn{
@@ -261,7 +341,7 @@ section{
 }
 
 .header{
-   background: var(--white);
+   background: var(--header);
    position: sticky;
    top:0; left:0; right:0;
    z-index: 1000;
@@ -280,7 +360,7 @@ section{
 
 .header .flex .logo{
    font-size: 2.5rem;
-   color:var(--black);
+   color:var(--logoblack);
 }
 
 .header .flex .logo span{

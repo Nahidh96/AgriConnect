@@ -111,19 +111,39 @@ if(isset($_POST['add_to_cart'])){
    <div class="box-container">
 
    <?php
-      $select_products = $conn->prepare("SELECT * FROM `products`");
+      // Modify the query to join with the promotions table
+      $select_products = $conn->prepare("
+         SELECT p.*, pr.discount, pr.start_date, pr.end_date 
+         FROM `products` p 
+         LEFT JOIN `promotions` pr ON p.id = pr.product_id 
+         AND pr.start_date <= CURDATE() AND pr.end_date >= CURDATE() 
+         LIMIT 6
+      ");
       $select_products->execute();
       if($select_products->rowCount() > 0){
          while($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)){ 
+            $has_promotion = !empty($fetch_products['discount']);
+            $original_price = $fetch_products['price'];
+            $discounted_price = $has_promotion ? $original_price * (1 - $fetch_products['discount'] / 100) : $original_price;
    ?>
    <form action="" class="box" method="POST">
-      <div class="price">Rs.<span><?= $fetch_products['price']; ?></span>/-</div>
+      <?php if($has_promotion){ ?>
+         <div class="price">
+            <span class="original-price">Rs. <?= $original_price; ?>/-</span> 
+            <span class="discounted-price"> <?= number_format($discounted_price, 2); ?>/-</span>
+         </div>
+      <?php } else { ?>
+         <div class="price">Rs.<span><?= $fetch_products['price']; ?></span>/-</div>
+      <?php } ?>
       <a href="view_page.php?pid=<?= $fetch_products['id']; ?>" class="fas fa-eye"></a>
       <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
       <div class="name"><?= $fetch_products['name']; ?></div>
       <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
       <input type="hidden" name="p_name" value="<?= $fetch_products['name']; ?>">
       <input type="hidden" name="p_price" value="<?= $fetch_products['price']; ?>">
+      <div class="pre_order">
+         <div class="preorder"><?= $fetch_products['pre_order'] ? '<span>Pre-Order</span><br>' : ''; ?></div>
+      </div>
       <input type="hidden" name="p_image" value="<?= $fetch_products['image']; ?>">
       <input type="number" min="1" value="1" name="p_qty" class="qty">
       <input type="submit" value="add to wishlist" class="option-btn" name="add_to_wishlist">
