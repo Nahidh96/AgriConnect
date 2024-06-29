@@ -151,15 +151,6 @@ section{
    cursor: not-allowed;
 }
 
-.pre_order {
-   margin-top: 1px;
-   font-size: 14px;
-   color: #666;
-}
-
-.pre_order span {
-   font-weight: bold;
-}
 
 
 .btn,
@@ -209,7 +200,8 @@ section{
 
 
 .btn{
-   background: linear-gradient(to right, #48a54b, #48a54b, #27ae60);
+   background: linear-gradient(to right, #419e44, #419e44, #419e44);
+
 }
 
 .delete-btn{
@@ -222,8 +214,8 @@ section{
 
 .btn:hover,
 .delete-btn:hover,
-.option-btn:hover{
-   background-color: var(--black);
+.option-btn:hover {
+    background: var(--black); /* Use background instead of background-color */
 }
 
 .flex-btn{

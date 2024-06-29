@@ -26,6 +26,13 @@ if(!isset($admin_id)){
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/admin_style.css">
 
+   <!-- Chart.js -->
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+   <style>
+      
+   </style>
+
 </head>
 <body>
    
@@ -37,6 +44,11 @@ if(!isset($admin_id)){
 
    <div class="box-container">
 
+   <div class="box">
+         <h3>Sales Analysis</h3>
+         <canvas id="salesChart"></canvas>
+      </div>
+
       <div class="box">
       <?php
          $total_pendings = 0;
@@ -46,7 +58,7 @@ if(!isset($admin_id)){
             $total_pendings += $fetch_pendings['owner_share'];
          };
       ?>
-      <h3>$<?= $total_pendings; ?>/-</h3>
+      <h3>Rs. <?= $total_pendings; ?>/-</h3>
       <p>total pendings</p>
       <a href="admin_orders.php" class="btn">see orders</a>
       </div>
@@ -60,7 +72,8 @@ if(!isset($admin_id)){
             $total_completed += $fetch_completed['owner_share'];
          };
       ?>
-      <h3>$<?= $total_completed; ?>/-</h3>
+      
+      <h3>Rs. <?= $total_completed; ?>/-</h3>
       <p>completed orders</p>
       <a href="admin_orders.php" class="btn">see orders</a>
       </div>
@@ -142,21 +155,138 @@ if(!isset($admin_id)){
       <a href="admin_ads.php" class="btn">see ads</a>
       </div>
 
+      <!-- New Features -->
+      <div class="box">
+         <h3>Analytics</h3>
+         <p>View detailed analytics</p>
+         <a href="admin_analytics.php" class="btn">view analytics</a>
+      </div>
+
+      <div class="box">
+         <h3>User M.</h3>
+         <p>Manage user activities</p>
+         <a href="admin_user_management.php" class="btn">manage users</a>
+      </div>
+
+      <div class="box">
+         <h3>User Engagement</h3>
+         <canvas id="engagementChart"></canvas>
+      </div>
+
+      <div class="box">
+         <h3>Order Management Enhancements</h3>
+         <p>Process orders, manage returns, and more</p>
+         <a href="admin_order_enhancements.php" class="btn">manage orders</a>
+      </div>
+
+      <div class="box">
+         <h3>Security and Maintenance</h3>
+         <p>Manage admin logs, backups, and security alerts</p>
+         <a href="admin_security.php" class="btn">view security</a>
+      </div>
+
+      <div class="box">
+         <h3>Customization Options</h3>
+         <p>Customize dashboard appearance and create custom reports</p>
+         <a href="admin_customization.php" class="btn">customize</a>
+      </div>
 
    </div>
 
 </section>
 
+<script>
+   // Sample data for charts
+   const salesData = {
+      labels: ['January', 'February', 'March', 'April', 'May'],
+      datasets: [{
+         label: 'Sales',
+         data: [1200, 1900, 3000, 5000, 2300],
+         backgroundColor: 'rgba(75, 192, 75, 0.2)',
+         borderColor: 'rgba(75, 192, 75, 1)',
+         borderWidth: 1
+      }]
+   };
 
+   const engagementData = {
+      labels: ['Logins', 'Pages Visited', 'Actions Taken'],
+      datasets: [{
+         label: 'Engagement',
+         data: [500, 1200, 900],
+         backgroundColor: 'rgba(34, 139, 34, 0.2)',
+         borderColor: 'rgba(34, 139, 34, 1)',
+         borderWidth: 1
+      }]
+   };
 
+   const productData = {
+      labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
+      datasets: [{
+         label: 'Sales',
+         data: [50, 70, 30, 90, 110],
+         backgroundColor: 'rgba(0, 128, 0, 0.2)',
+         borderColor: 'rgba(0, 128, 0, 1)',
+         borderWidth: 1
+      }]
+   };
 
+   // Sales Chart
+   const salesCtx = document.getElementById('salesChart').getContext('2d');
+   new Chart(salesCtx, {
+      type: 'bar',
+      data: salesData,
+      options: {
+         responsive: true,
+         plugins: {
+            legend: {
+               position: 'top',
+            },
+            title: {
+               display: true,
+               text: 'Sales Analysis'
+            }
+         }
+      },
+   });
 
+   // User Engagement Chart
+   const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+   new Chart(engagementCtx, {
+      type: 'pie',
+      data: engagementData,
+      options: {
+         responsive: true,
+         plugins: {
+            legend: {
+               position: 'top',
+            },
+            title: {
+               display: true,
+               text: 'User Engagement'
+            }
+         }
+      },
+   });
 
-
-
-
-
-
+   // Product Performance Chart
+   const productCtx = document.getElementById('productChart').getContext('2d');
+   new Chart(productCtx, {
+      type: 'bar',
+      data: productData,
+      options: {
+         responsive: true,
+         plugins: {
+            legend: {
+               position: 'top',
+            },
+            title: {
+               display: true,
+               text: 'Product Performance'
+            }
+         }
+      },
+   });
+</script>
 
 
 <script src="js/script.js"></script>
