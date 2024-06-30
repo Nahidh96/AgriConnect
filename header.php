@@ -17,10 +17,10 @@ if(isset($message)){
 
    <div class="flex">
 
-      <a href="home.php" class="logo">AgriConnect<span>.</span></a>
+      <a href="index.php" class="logo">AgriConnect<span>.</span></a>
 
       <nav class="navbar">
-         <a href="home.php">home</a>
+         <a href="index.php">home</a>
          <a href="shop.php">shop</a>
          <a href="orders.php">orders</a>
          <a href="about.php">about</a>

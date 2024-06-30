@@ -112,7 +112,7 @@ if(isset($_POST['update_profile'])){
       </div>
       <div class="flex-btn">
          <input type="submit" class="btn" value="update profile" name="update_profile">
-         <a href="home.php" class="option-btn">go back</a>
+         <a href="index.php" class="option-btn">go back</a>
       </div>
    </form>
 
