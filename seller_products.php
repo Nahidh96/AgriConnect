@@ -16,7 +16,7 @@ if (isset($_POST['add_product'])) {
    $category = $_POST['category'];
    $details = $_POST['details'];
    $pre_order = isset($_POST['pre_order']) ? 1 : 0;
-   $pre_order_date = isset($_POST['pre_order_date']) ? $_POST['pre_order_date'] : null; // Added pre_order_date
+   $pre_order_date = !empty($_POST['pre_order_date']) ? $_POST['pre_order_date'] : null; // Handle pre_order_date
    $image = $_FILES['image']['name'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folder = 'uploaded_img/' . $image;

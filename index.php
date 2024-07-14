@@ -77,12 +77,12 @@ if (isset($_POST['add_to_cart'])) {
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>home page</title>
-
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
+   <!-- favicon -->
+   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
 </head>
 <body>
@@ -121,17 +121,17 @@ if (isset($_POST['add_to_cart'])) {
       </div>
 
       <div class="box">
-         <img src="images/cat-4.png" alt="">
+         <img src="images/cat-4.png" alt="" style="height: 120px; width: 180px;">
          <a href="category.php?category=fish" class="cbtn">Fertilizers</a>
       </div>
 
       <div class="box">
-         <img src="images/cat-4.png" alt="">
+         <img src="images/cat-5.png" alt="" style="height: 120px; width: 180px;">
          <a href="category.php?category=fish" class="cbtn">Rentals</a>
       </div>
 
       <div class="box">
-         <img src="images/cat-4.png" alt="">
+         <img src="images/cat-6.png" alt="" style="height: 120px; width: 115px;">
          <a href="category.php?category=fish" class="cbtn">Startups</a>
       </div>
 

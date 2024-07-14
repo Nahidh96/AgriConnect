@@ -26,7 +26,7 @@ if(!isset($admin_id)){
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/admin_style.css">
 
-</head>
+</head> 
 <body>
    
 <?php include 'admin_header.php'; ?>

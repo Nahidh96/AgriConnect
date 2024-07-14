@@ -99,8 +99,8 @@ if(isset($_POST['add_to_cart'])){
 
    <a href="category.php?category=fruits">fruits</a>
    <a href="category.php?category=vegitables">vegitables</a>
-   <a href="category.php?category=fish">fish</a>
-   <a href="category.php?category=meat">meat</a>
+   <a href="category.php?category=fish">Rentals</a>
+   <a href="category.php?category=meat">Fertilizers</a>
 
 </section>
 
