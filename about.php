@@ -37,7 +37,7 @@ if(!isset($user_id)){
 
       <div class="box">
          <img src="project images/about-img-2.svg" alt="">
-         <h3>Why choose us?</h3>
+         <h3>Why Choose Us?</h3>
          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam, a quod, quis alias eius dignissimos pariatur laborum dolorem ad ullam iure, consequatur autem animi illo odit! Atque quia minima voluptatibus.</p>
          <a href="contact.php" class="btn">contact us</a>
       </div>
