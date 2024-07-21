@@ -43,7 +43,7 @@ if(!isset($user_id)){
       </div>
 
       <div class="box">
-         <h3>What we provide?</h3>
+         <h3>What We Provide?</h3>
          <p>We provide a wide range of high-quality products and services to meet your needs. Whether you're looking for agricultural equipment, seeds, fertilizers, or expert advice, we have you covered. Our team of professionals is dedicated to delivering exceptional customer satisfaction and ensuring that you have a seamless and enjoyable shopping experience with us. Choose us for all your agricultural needs.</p>
          <a href="shop.php" class="btn">our shop</a>
       </div>
