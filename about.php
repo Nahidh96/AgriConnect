@@ -38,13 +38,13 @@ if(!isset($user_id)){
       <div class="box">
          <img src="project images/about-img-2.svg" alt="">
          <h3>Why Choose Us?</h3>
-         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam, a quod, quis alias eius dignissimos pariatur laborum dolorem ad ullam iure, consequatur autem animi illo odit! Atque quia minima voluptatibus.</p>
+          <p>We are a trusted company with years of experience in providing high-quality products and services. Our team of experts is dedicated to delivering exceptional customer satisfaction. We offer competitive prices, reliable delivery, and a wide range of products to meet your needs. Choose us for a seamless and enjoyable shopping experience.</p>
          <a href="contact.php" class="btn">contact us</a>
       </div>
 
       <div class="box">
          <h3>What we provide?</h3>
-         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam, a quod, quis alias eius dignissimos pariatur laborum dolorem ad ullam iure, consequatur autem animi illo odit! Atque quia minima voluptatibus.</p>
+         <p>We provide a wide range of high-quality products and services to meet your needs. Whether you're looking for agricultural equipment, seeds, fertilizers, or expert advice, we have you covered. Our team of professionals is dedicated to delivering exceptional customer satisfaction and ensuring that you have a seamless and enjoyable shopping experience with us. Choose us for all your agricultural needs.</p>
          <a href="shop.php" class="btn">our shop</a>
       </div>
 
