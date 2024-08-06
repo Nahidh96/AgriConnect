@@ -10,9 +10,10 @@
    --light-color:#666C66;
    --white:#fff;
    --light-bg:#f4f9f5;
-   --light-gr:#dff0e2;
-   --header:#fefffe;
-   --border:.2rem solid var(--black);
+   --light-gr:#f3fff5;
+   --header:#f8fdf9;
+   --fr-green: #1d311d;
+   --border:.2rem solid var(--fr-green);
    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
 
@@ -36,7 +37,7 @@
 
 *{
    font-family: 'Rubik', sans-serif;
-   margin:0; padding:0;
+   margin: 0; padding:0;
    box-sizing: border-box;
    outline: none; border:none;
    text-decoration: none;
@@ -62,7 +63,7 @@
 }
 
 body{
-   background-color: var(--light-bg);
+   background-color: var(--light-gr);
    /* padding-bottom: 6.5rem; */
 }
 
@@ -75,7 +76,7 @@ html{
 
 section{
    padding:3rem 2rem;
-   max-width: 1200px;
+   max-width: 1365px;
    margin:0 auto;
 }
 
@@ -176,7 +177,7 @@ section{
    text-align: center;
    text-transform: capitalize;
    color: #ffffff; /* Button text color */
-   background-color: var(--green); /* Button background color */
+   background: linear-gradient(to right, #419e44, #419e44, #419e44); /* Button background color */
    border: none;
    border-radius: 5rem;
    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -346,7 +347,7 @@ section{
    justify-content: space-between;
    padding:2rem;
    margin: 0 auto;
-   max-width: 1200px;
+   max-width: 1365px;
    position: relative;
 }
 
@@ -492,7 +493,8 @@ section{
 
 
 .footer{
-   background-color: var(--white);
+   background-color: var(--header);
+   outline: var(--border);
 }
 
 .footer .box-container{
