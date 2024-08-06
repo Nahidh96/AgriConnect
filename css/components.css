@@ -81,11 +81,11 @@ section{
 }
 
 .disabled{
+   -webkit-user-select: none;
    user-select: none;
    pointer-events: none;
    opacity: .5;
 }
-
 
 
 .secondary-btn-s {
