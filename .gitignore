@@ -2,3 +2,7 @@ settings.json
 logs/
 temp/
 cache/
+vendor/
+node_modules/
+public/uploads/
+.env
