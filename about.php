@@ -38,7 +38,7 @@ if(!isset($user_id)){
       <div class="box">
          <img src="project images/about-img-2.svg" alt="">
          <h3>Why Choose Us?</h3>
-          <p>We are a trusted company with years of experience in providing high-quality products and services. Our team of experts is dedicated to delivering exceptional customer satisfaction. We offer competitive prices, reliable delivery, and a wide range of products to meet your needs. Choose us for a seamless and enjoyable shopping experience.</p>
+         <p>We are a trusted company with years of experience in providing high-quality products and services. Our team of experts is dedicated to delivering exceptional customer satisfaction. We offer competitive prices, reliable delivery, and a wide range of products to meet your needs. Choose us for a seamless and enjoyable shopping experience.</p>
          <a href="contact.php" class="btn">contact us</a>
       </div>
 
@@ -54,13 +54,13 @@ if(!isset($user_id)){
 
 <section class="reviews">
 
-   <h1 class="title">clients reivews</h1>
+   <h1 class="title">clients reviews</h1>
 
    <div class="box-container">
 
       <div class="box">
          <img src="images/pic-1.png" alt="">
-         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et voluptates sit earum, neque non cupiditate amet deserunt aperiam quas ex.</p>
+         <p>"AgriConnect provided me with the best agricultural equipment I've ever used. Highly recommended!"</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -68,12 +68,12 @@ if(!isset($user_id)){
             <i class="fas fa-star"></i>
             <i class="fas fa-star-half-alt"></i>
          </div>
-         <h3>john deo</h3>
+         <h3>Sithara Fernando</h3>
       </div>
 
       <div class="box">
          <img src="images/pic-2.png" alt="">
-         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et voluptates sit earum, neque non cupiditate amet deserunt aperiam quas ex.</p>
+         <p>"The quality of seeds I bought from AgriConnect was exceptional. My crops have never been better!"</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -81,12 +81,12 @@ if(!isset($user_id)){
             <i class="fas fa-star"></i>
             <i class="fas fa-star-half-alt"></i>
          </div>
-         <h3>john deo</h3>
+         <h3>Kamal Perera</h3>
       </div>
 
       <div class="box">
          <img src="images/pic-3.png" alt="">
-         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et voluptates sit earum, neque non cupiditate amet deserunt aperiam quas ex.</p>
+         <p>"I was impressed with their customer service. They helped me choose the right fertilizer for my farm."</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -94,12 +94,12 @@ if(!isset($user_id)){
             <i class="fas fa-star"></i>
             <i class="fas fa-star-half-alt"></i>
          </div>
-         <h3>john deo</h3>
+         <h3>Nuwan Jayasinghe</h3>
       </div>
 
       <div class="box">
          <img src="images/pic-4.png" alt="">
-         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et voluptates sit earum, neque non cupiditate amet deserunt aperiam quas ex.</p>
+         <p>"AgriConnect's expert advice helped me improve my farming techniques significantly."</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -107,12 +107,12 @@ if(!isset($user_id)){
             <i class="fas fa-star"></i>
             <i class="fas fa-star-half-alt"></i>
          </div>
-         <h3>john deo</h3>
+         <h3>Samantha Silva</h3>
       </div>
 
       <div class="box">
          <img src="images/pic-5.png" alt="">
-         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et voluptates sit earum, neque non cupiditate amet deserunt aperiam quas ex.</p>
+         <p>"The delivery was prompt and the products were exactly as described. Very satisfied!"</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -120,12 +120,12 @@ if(!isset($user_id)){
             <i class="fas fa-star"></i>
             <i class="fas fa-star-half-alt"></i>
          </div>
-         <h3>john deo</h3>
+         <h3>Nimal Fernando</h3>
       </div>
 
       <div class="box">
          <img src="images/pic-6.png" alt="">
-         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et voluptates sit earum, neque non cupiditate amet deserunt aperiam quas ex.</p>
+         <p>"A great shopping experience with a wide variety of products to choose from. Will buy again."</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -133,20 +133,12 @@ if(!isset($user_id)){
             <i class="fas fa-star"></i>
             <i class="fas fa-star-half-alt"></i>
          </div>
-         <h3>john deo</h3>
+         <h3>Manjula Wijesinghe</h3>
       </div>
 
    </div>
 
 </section>
-
-
-
-
-
-
-
-
 
 <?php include 'footer.php'; ?>
 
