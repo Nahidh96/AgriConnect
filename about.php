@@ -111,7 +111,7 @@ if(!isset($user_id)){
       </div>
 
       <div class="box">
-         <!-- comment test 2 -->
+         <!-- comment test 3 -->
          <img src="images/pic-5.png" alt="">
          <p>"The delivery was prompt and the products were exactly as described. Very satisfied!"</p>
          <div class="stars">
