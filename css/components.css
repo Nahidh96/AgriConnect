@@ -10,8 +10,9 @@
    --light-color:#666C66;
    --white:#fff;
    --light-bg:#f4f9f5;
-   --light-gr:#f3fff5;
-   --header:#f8fdf9;
+   --mid-green: #ddeedd;
+   --light-gr:#e7f8ea;
+   --header: #f3fff5;
    --fr-green: #1d311d;
    --border:.2rem solid var(--fr-green);
    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);

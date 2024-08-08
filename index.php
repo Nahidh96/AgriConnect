@@ -105,39 +105,46 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 
 <section class="home-category">
+    <h1 class="title">Shop by Category</h1>
 
-   <h1 class="title">shop by category</h1>
+    <div class="box-container">
+        <div class="box">
+            <div class="icon">
+                <i class="fas fa-apple-alt"></i>
+            </div>
+            <a href="category.php?category=fruits" class="cbtn">Fruits</a>
+        </div>
 
-   <div class="box-container">
+        <div class="box">
+            <div class="icon">
+                <i class="fas fa-carrot"></i>
+            </div>
+            <a href="category.php?category=vegetables" class="cbtn">Vegetables</a>
+        </div>
 
-      <div class="box">
-         <img src="images/cat-1.png" alt="">
-         <a href="category.php?category=fruits" class="cbtn">fruits</a>
-      </div>
+        <div class="box">
+            <div class="icon">
+                <i class="fas fa-seedling"></i>
+            </div>
+            <a href="category.php?category=fertilizers" class="cbtn">Fertilizers</a>
+        </div>
 
-      <div class="box">
-         <img src="images/cat-3.png" alt="">
-         <a href="category.php?category=vegetables" class="cbtn">vegetables</a>
-      </div>
+        <div class="box">
+            <div class="icon">
+                <i class="fas fa-tractor"></i>
+            </div>
+            <a href="category.php?category=rentals" class="cbtn">Rentals</a>
+        </div>
 
-      <div class="box">
-         <img src="images/cat-4.png" alt="" style="height: 120px; width: 180px;">
-         <a href="category.php?category=fish" class="cbtn">Fertilizers</a>
-      </div>
-
-      <div class="box">
-         <img src="images/cat-5.png" alt="" style="height: 120px; width: 180px;">
-         <a href="category.php?category=fish" class="cbtn">Rentals</a>
-      </div>
-
-      <div class="box">
-         <img src="images/cat-6.png" alt="" style="height: 120px; width: 115px;">
-         <a href="category.php?category=fish" class="cbtn">Startups</a>
-      </div>
-
-   </div>
-
+        <div class="box">
+            <div class="icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <a href="category.php?category=startups" class="cbtn">Startups</a>
+        </div>
+    </div>
 </section>
+
 
 <section class="products">
 
@@ -192,6 +199,18 @@ if (isset($_POST['add_to_cart'])) {
    ?>
 
    </div>
+
+   <div class="language-switcher">
+        <button class="lang-btn" onclick="switchLanguage('si')">සිංහල</button>
+        <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Implement language switching logic here
+            alert('Switching to ' + lang);
+        }
+    </script>
 
 </section>
 
