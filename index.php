@@ -14,10 +14,10 @@ $user_id = $_SESSION['user_id'];
 
 if (isset($_POST['add_to_wishlist'])) {
 
-    $pid = filter_var($_POST['pid'], FILTER_SANITIZE_STRING);
-    $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_STRING);
-    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_STRING);
-    $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_STRING);
+    $pid = filter_var($_POST['pid'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     $check_wishlist_numbers = $conn->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
     $check_wishlist_numbers->execute([$p_name, $user_id]);
