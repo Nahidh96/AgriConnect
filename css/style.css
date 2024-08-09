@@ -19,7 +19,7 @@
 }
 
 .lang-btn {
-   background-color: #4CAF50; /* Green */
+   background-color: #419e44; /* Green */
    border: none;
    color: white;
    padding: 10px 20px;
@@ -213,6 +213,12 @@
    box-shadow: var(--box-shadow);
    border-radius: .5rem;
    position: relative;
+   transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.products .box-container .box:hover{
+   transform: translateY(-2px); /* Slightly reduced hover lift */
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Lighter shadow */
 }
 
 .products .box-container .box .price{
