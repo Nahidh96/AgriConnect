@@ -20,6 +20,7 @@ if (isset($_POST['add_product'])) {
    $image = $_FILES['image']['name'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folder = 'uploaded_img/' . $image;
+   $image_width = 300;
 
    $insert_product = $conn->prepare("INSERT INTO `products`(name, category, details, price, image, seller_id, pre_order, pre_order_date) VALUES(?,?,?,?,?,?,?,?)");
    $insert_product->execute([$name, $category, $details, $price, $image, $seller_id, $pre_order, $pre_order_date]);
@@ -75,8 +76,8 @@ if (isset($_GET['delete'])) {
          <option value="" selected disabled>Select category</option>
          <option value="vegetables">Vegetables</option>
          <option value="fruits">Fruits</option>
-         <option value="meat">Fertilizers</option>
-         <option value="fish">Rentals</option>
+         <option value="fertlizers">Fertilizers</option>
+         <option value="euipments">Equipments</option>
       </select> 
       <textarea name="details" class="box" required placeholder="Enter product details" cols="30" rows="10"></textarea>
       <input type="file" name="image" class="box" required>
