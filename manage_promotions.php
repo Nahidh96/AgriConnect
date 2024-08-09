@@ -14,10 +14,10 @@ if (isset($_POST['add_promotion'])) {
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 
-    $product_id = filter_var($product_id, FILTER_SANITIZE_STRING);
-    $discount = filter_var($discount, FILTER_SANITIZE_STRING);
-    $start_date = filter_var($start_date, FILTER_SANITIZE_STRING);
-    $end_date = filter_var($end_date, FILTER_SANITIZE_STRING);
+    $product_id = filter_var($product_id, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $discount = filter_var($discount, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $start_date = filter_var($start_date, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $end_date = filter_var($end_date, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     // Insert promotion into the promotions table
     $add_promotion = $conn->prepare("INSERT INTO `promotions` (seller_id, product_id, discount, start_date, end_date) VALUES (?, ?, ?, ?, ?)");

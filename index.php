@@ -39,11 +39,11 @@ if (isset($_POST['add_to_wishlist'])) {
 
 if (isset($_POST['add_to_cart'])) {
 
-    $pid = filter_var($_POST['pid'], FILTER_SANITIZE_STRING);
-    $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_STRING);
-    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_STRING);
-    $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_STRING);
-    $p_qty = filter_var($_POST['p_qty'], FILTER_SANITIZE_STRING);
+    $pid = filter_var($_POST['pid'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $p_qty = filter_var($_POST['p_qty'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     $check_cart_numbers = $conn->prepare("SELECT * FROM `cart` WHERE name = ? AND user_id = ?");
     $check_cart_numbers->execute([$p_name, $user_id]);
@@ -133,7 +133,7 @@ if (isset($_POST['add_to_cart'])) {
             <div class="icon">
                 <i class="fas fa-tractor" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=rentals" class="cbtn">Rentals</a>
+            <a href="category.php?category=equipments" class="cbtn">Equipments</a>
         </div>
 
         <div class="box">

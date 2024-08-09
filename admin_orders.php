@@ -20,7 +20,7 @@ if(isset($_POST['update_order'])){
    $update_payment = isset($_POST['update_payment']) ? $_POST['update_payment'] : null;
    
    // Sanitize input
-   $update_payment = filter_var($update_payment, FILTER_SANITIZE_STRING);
+   $update_payment = filter_var($update_payment, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
    // Prepare and execute the update query
    $update_orders = $conn->prepare("UPDATE `orders` SET payment_status = ? WHERE id = ?");

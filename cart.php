@@ -26,7 +26,7 @@ if(isset($_GET['delete_all'])){
 if(isset($_POST['update_qty'])){
    $cart_id = $_POST['cart_id'];
    $p_qty = $_POST['p_qty'];
-   $p_qty = filter_var($p_qty, FILTER_SANITIZE_STRING);
+   $p_qty = filter_var($p_qty, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $update_qty = $conn->prepare("UPDATE `cart` SET quantity = ? WHERE id = ?");
    $update_qty->execute([$p_qty, $cart_id]);
    $message[] = 'cart quantity updated';

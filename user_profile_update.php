@@ -13,15 +13,15 @@ if(!isset($user_id)){
 if(isset($_POST['update_profile'])){
 
    $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING);
+   $name = filter_var($name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING);
+   $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
    $update_profile = $conn->prepare("UPDATE `users` SET name = ?, email = ? WHERE id = ?");
    $update_profile->execute([$name, $email, $user_id]);
 
    $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
+   $image = filter_var($image, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $image_size = $_FILES['image']['size'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folder = 'uploaded_img/'.$image;
@@ -43,11 +43,11 @@ if(isset($_POST['update_profile'])){
 
    $old_pass = $_POST['old_pass'];
    $update_pass = md5($_POST['update_pass']);
-   $update_pass = filter_var($update_pass, FILTER_SANITIZE_STRING);
+   $update_pass = filter_var($update_pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $new_pass = md5($_POST['new_pass']);
-   $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
+   $new_pass = filter_var($new_pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $confirm_pass = md5($_POST['confirm_pass']);
-   $confirm_pass = filter_var($confirm_pass, FILTER_SANITIZE_STRING);
+   $confirm_pass = filter_var($confirm_pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
    if(!empty($update_pass) AND !empty($new_pass) AND !empty($confirm_pass)){
       if($update_pass != $old_pass){

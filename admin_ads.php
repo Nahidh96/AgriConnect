@@ -13,11 +13,11 @@ if(!isset($admin_id)){
 if(isset($_POST['add_ad'])){
 
    $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
+   $title = filter_var($title, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $link = $_POST['link'];
-   $link = filter_var($link, FILTER_SANITIZE_STRING);
+   $link = filter_var($link, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
+   $image = filter_var($image, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $image_size = $_FILES['image']['size'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folder = 'uploaded_img/'.$image;
@@ -54,9 +54,9 @@ if(isset($_POST['update_ad'])){
    $ad_id = $_POST['ad_id'];
    $ad_id = filter_var($ad_id, FILTER_SANITIZE_NUMBER_INT);
    $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
+   $title = filter_var($title, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $link = $_POST['link'];
-   $link = filter_var($link, FILTER_SANITIZE_STRING);
+   $link = filter_var($link, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $times_per_day = $_POST['times_per_day'];
    $times_per_day = filter_var($times_per_day, FILTER_SANITIZE_NUMBER_INT);
    $days_duration = $_POST['days_duration'];
@@ -70,7 +70,7 @@ if(isset($_POST['update_ad'])){
    if(!empty($_FILES['image']['name'])){
       $old_image = $_POST['old_image'];
       $image = $_FILES['image']['name'];
-      $image = filter_var($image, FILTER_SANITIZE_STRING);
+      $image = filter_var($image, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
       $image_size = $_FILES['image']['size'];
       $image_tmp_name = $_FILES['image']['tmp_name'];
       $image_folder = 'uploaded_img/'.$image;

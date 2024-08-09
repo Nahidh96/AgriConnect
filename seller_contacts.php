@@ -14,7 +14,7 @@ $message = []; // Initialize as an array to store multiple messages
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message']) && isset($_POST['receiver_id'])) {
     $msg_content = $_POST['message'];
-    $msg_content = filter_var($msg_content, FILTER_SANITIZE_STRING);
+    $msg_content = filter_var($msg_content, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $receiver_id = $_POST['receiver_id'];
 
     // Insert message into the database

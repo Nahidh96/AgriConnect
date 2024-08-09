@@ -21,7 +21,7 @@ if ($seller_check->rowCount() == 0) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
    $message = $_POST['message'];
-   $message = filter_var($message, FILTER_SANITIZE_STRING);
+   $message = filter_var($message, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
    // Insert message into the database
    $stmt = $conn->prepare("INSERT INTO `messages` (sender_id, receiver_id, message) VALUES (?, ?, ?)");
