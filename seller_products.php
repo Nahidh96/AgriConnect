@@ -4,7 +4,7 @@
 
 session_start();
 
-$seller_id = $_SESSION['seller_id'];
+$seller_id = $_COOKIE['seller_id'];
 
 if (!isset($seller_id)) {
    header('location:login.php');

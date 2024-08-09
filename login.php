@@ -2,8 +2,6 @@
 
 @include 'config.php';
 
-session_start();
-
 if(isset($_POST['submit'])){
 
    $email = $_POST['email'];
@@ -20,19 +18,22 @@ if(isset($_POST['submit'])){
 
    if($rowCount > 0){
 
+      // Set cookie expiration time to 30 days
+      $cookie_expiration_time = time() + (86400 * 30);
+
       if($row['user_type'] == 'admin'){
 
-         $_SESSION['admin_id'] = $row['id'];
+         setcookie('admin_id', $row['id'], $cookie_expiration_time, "/");
          header('location:admin_page.php');
 
       }elseif($row['user_type'] == 'user'){
 
-         $_SESSION['user_id'] = $row['id'];
+         setcookie('user_id', $row['id'], $cookie_expiration_time, "/");
          header('location:index.php');
 
       }elseif($row['user_type'] == 'seller'){
 
-         $_SESSION['seller_id'] = $row['id'];
+         setcookie('seller_id', $row['id'], $cookie_expiration_time, "/");
          header('location:seller_page.php');
 
       }else{
@@ -91,7 +92,6 @@ if(isset($message)){
    </form>
 
 </section>
-
 
 </body>
 </html>

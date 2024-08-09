@@ -4,13 +4,13 @@
 
 session_start();
 
-// Check if user_id is set in session
-if (!isset($_SESSION['user_id'])) {
+// Check if user_id is set in cookies
+if (!isset($_COOKIE['user_id'])) {
     header('Location: login.php');
     exit; // Ensure script stops after redirect
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_COOKIE['user_id']; // Retrieve user ID from the cookie
 
 if (isset($_POST['add_to_wishlist'])) {
 
@@ -110,35 +110,35 @@ if (isset($_POST['add_to_cart'])) {
     <div class="box-container">
         <div class="box">
             <div class="icon">
-                <i class="fas fa-apple-alt"></i>
+                <i class="fas fa-apple-alt" style="color: #1f5120;"></i>
             </div>
             <a href="category.php?category=fruits" class="cbtn">Fruits</a>
         </div>
 
         <div class="box">
             <div class="icon">
-                <i class="fas fa-carrot"></i>
+                <i class="fas fa-carrot" style="color: #1f5120;"></i>
             </div>
             <a href="category.php?category=vegetables" class="cbtn">Vegetables</a>
         </div>
 
         <div class="box">
             <div class="icon">
-                <i class="fas fa-seedling"></i>
+                <i class="fas fa-seedling" style="color: #1f5120;"></i>
             </div>
             <a href="category.php?category=fertilizers" class="cbtn">Fertilizers</a>
         </div>
 
         <div class="box">
             <div class="icon">
-                <i class="fas fa-tractor"></i>
+                <i class="fas fa-tractor" style="color: #1f5120;"></i>
             </div>
             <a href="category.php?category=rentals" class="cbtn">Rentals</a>
         </div>
 
         <div class="box">
             <div class="icon">
-                <i class="fas fa-lightbulb"></i>
+                <i class="fas fa-lightbulb" style="color: #1f5120;"></i>
             </div>
             <a href="category.php?category=startups" class="cbtn">Startups</a>
         </div>

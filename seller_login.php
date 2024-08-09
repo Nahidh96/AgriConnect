@@ -22,7 +22,7 @@ if(isset($_POST['submit'])){
 
       if($row['user_type'] == 'seller'){
 
-         $_SESSION['seller_id'] = $row['id'];
+         $_COOKIE['seller_id'] = $row['id'];
          header('location:seller_page.php');
 
       }else{
