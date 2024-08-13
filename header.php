@@ -84,7 +84,7 @@ if (isset($message)) {
          }
       ?>
       <div class="view-all">
-          <a href="view_all_notifications.php" class="cbtn">View All Notifications</a>
+          <a href="notifications.php" class="cbtn">View All Notifications</a>
       </div>
    </div>
 
