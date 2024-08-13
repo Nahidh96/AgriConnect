@@ -26,6 +26,17 @@ if(isset($_POST['update_order'])){
    $update_orders = $conn->prepare("UPDATE `orders` SET payment_status = ? WHERE id = ?");
    $update_orders->execute([$update_payment, $order_id]);
 
+   // Fetch user_id associated with the order
+   $order_info = $conn->prepare("SELECT user_id FROM `orders` WHERE id = ?");
+   $order_info->execute([$order_id]);
+   $order = $order_info->fetch(PDO::FETCH_ASSOC);
+   $user_id = $order['user_id'];
+
+   // Insert a notification for the user
+   $notification_message = "Your order #$order_id payment status has been updated to '$update_payment'.";
+   $insert_notification = $conn->prepare("INSERT INTO notifications (seller_id, message) VALUES (?, ?)");
+   $insert_notification->execute([$user_id, $notification_message]);
+
    $message[] = 'Payment has been updated!';
 }
 
@@ -33,11 +44,24 @@ if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
    $delete_orders = $conn->prepare("DELETE FROM `orders` WHERE id = ?");
    $delete_orders->execute([$delete_id]);
+
+   // Fetch user_id associated with the order
+   $order_info = $conn->prepare("SELECT user_id FROM `orders` WHERE id = ?");
+   $order_info->execute([$delete_id]);
+   $order = $order_info->fetch(PDO::FETCH_ASSOC);
+   $user_id = $order['user_id'];
+
+   // Insert a notification for the user
+   $notification_message = "Your order #$delete_id has been deleted.";
+   $insert_notification = $conn->prepare("INSERT INTO notifications (seller_id, message) VALUES (?, ?)");
+   $insert_notification->execute([$user_id, $notification_message]);
+
    header('location:admin_orders.php');
    exit(); // Add exit after redirection to stop script execution
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
