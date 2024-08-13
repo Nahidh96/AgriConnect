@@ -3,7 +3,7 @@ services:
   db: 
     image: mysql:latest
     environment:
-      - MYSQL_DATABASE=shop_db
+      - MYSQL_DATABASE=agriconnect_db
       - MYSQL_USER=nahidh
       - MYSQL_PASSWORD=password # this should live in a env var
       - MYSQL_ALLOW_EMPTY_PASSWORD=1 # equivalent to True
