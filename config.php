@@ -3,7 +3,7 @@
 $servername = "db"; // Use "db" for Docker, "localhost" for XAMPP
 $username = "nahidh"; // MySQL user
 $password = "password"; // MySQL password
-$database = "shop_db"; // MySQL database name
+$database = "agriconnect_db"; // MySQL database name
 
 // Create connection
 try {
