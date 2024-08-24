@@ -1,9 +1,9 @@
 <?php
-
 include 'config.php';
 
 if(isset($_POST['submit'])) {
     $type = $_POST['type']; // Added to distinguish between user and seller registration
+    $language_preference = $_POST['language_preference'];
 
     if ($type == 'user') {
         // User registration
@@ -31,10 +31,11 @@ if(isset($_POST['submit'])) {
             if($pass != $cpass){
                 $message[] = 'Confirm password not matched!';
             } else {
-                $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image, user_type) VALUES(?,?,?,?,?)");
-                $insert->execute([$name, $email, $pass, $image, 'user']);
+                $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image, user_type, language_preference) VALUES(?,?,?,?,?,?)");
+                $insert->execute([$name, $email, $pass, $image, 'user', $language_preference]);
 
                 if($insert){
+                    setcookie('language_preference', $language_preference, time() + (86400 * 30), "/"); // 30 days expiry
                     if($image_size > 2000000){
                         $message[] = 'Image size is too large!';
                     } else {
@@ -72,10 +73,11 @@ if(isset($_POST['submit'])) {
             if($pass != $cpass){
                 $message[] = 'Confirm password not matched!';
             } else {
-                $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image, user_type) VALUES(?,?,?,?,?)");
-                $insert->execute([$name, $email, $pass, $image, 'seller']);
+                $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image, user_type, language_preference) VALUES(?,?,?,?,?,?)");
+                $insert->execute([$name, $email, $pass, $image, 'seller', $language_preference]);
 
                 if($insert){
+                    setcookie('language_preference', $language_preference, time() + (86400 * 30), "/"); // 30 days expiry
                     if($image_size > 2000000){
                         $message[] = 'Image size is too large!';
                     } else {
@@ -89,7 +91,6 @@ if(isset($_POST['submit'])) {
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -136,6 +137,14 @@ if(isset($message)){
       <input type="password" name="pass" class="box" placeholder="Enter your password" required>
       <input type="password" name="cpass" class="box" placeholder="Confirm your password" required>
       <input type="file" name="image" class="box" required accept="image/jpg, image/jpeg, image/png">
+
+      <label for="language_preference">Language Preference:</label>
+      <select name="language_preference" id="language_preference" required>
+         <option value="english">English</option>
+         <option value="sinhala">Sinhala</option>
+         <option value="tamil">Tamil</option>
+      </select>
+
       <input type="submit" value="Register Now" class="btn" name="submit">
       <p>Already have an account? <a href="login.php">Login now</a></p>
    </form>

@@ -426,3 +426,84 @@
    }
 
 }
+
+/* Marketing Section Styles */
+.marketing {
+   padding: 20px;
+   max-width: 800px;
+   margin: 0 auto;
+   background: #fff;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.marketing form {
+   margin-bottom: 20px;
+}
+
+.marketing label {
+   display: block;
+   margin: 10px 0 5px;
+   font-weight: bold;
+}
+
+.marketing input[type="text"],
+.marketing input[type="date"],
+.marketing input[type="number"],
+.marketing textarea {
+   width: calc(100% - 22px);
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-radius: 4px;
+   margin-bottom: 10px;
+}
+
+.marketing textarea {
+   resize: vertical;
+}
+
+.marketing .btn {
+   background: #5cb85c;
+   color: #fff;
+   border: none;
+   padding: 10px 15px;
+   border-radius: 4px;
+   cursor: pointer;
+   font-size: 16px;
+}
+
+.marketing .btn:hover {
+   background: #4cae4c;
+}
+
+.marketing table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 20px;
+}
+
+.marketing table, .marketing th, .marketing td {
+   border: 1px solid #ddd;
+}
+
+.marketing th, .marketing td {
+   padding: 10px;
+   text-align: left;
+}
+
+.marketing th {
+   background: #f4f4f4;
+}
+
+.marketing tr:nth-child(even) {
+   background: #f9f9f9;
+}
+
+.marketing a {
+   color: #0275d8;
+   text-decoration: none;
+}
+
+.marketing a:hover {
+   text-decoration: underline;
+}

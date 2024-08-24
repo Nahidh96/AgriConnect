@@ -90,6 +90,13 @@ if(!isset($admin_id)){
       </div>
 
       <div class="box">
+      <h3>Support Tickets</h3>
+      <p>Manage support tickets</p>
+      <a href="admin_support_tickets.php" class="btn">Manage Tickets</a>
+      </div>
+
+
+      <div class="box">
       <?php
          $select_products = $conn->prepare("SELECT * FROM `products`");
          $select_products->execute();

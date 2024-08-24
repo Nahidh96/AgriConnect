@@ -12,6 +12,42 @@ if (!isset($_COOKIE['user_id'])) {
 
 $user_id = $_COOKIE['user_id']; // Retrieve user ID from the cookie
 
+$current_page = basename($_SERVER['PHP_SELF']); // Get the current script name (e.g., 'index.php')
+
+if (isset($_COOKIE['language_preference'])) {
+    $language_preference = $_COOKIE['language_preference'];
+
+    switch ($language_preference) {
+        case 'sinhala':
+            if ($current_page !== 'index.php') {
+                header('Location: sinhala/index.php');
+                exit();
+            }
+            break;
+        case 'tamil':
+            if ($current_page !== 'index.php') {
+                header('Location: tamil/index.php');
+                exit();
+            }
+            break;
+        case 'english':
+        default:
+            // Only redirect if not already on 'index.php'
+            if ($current_page !== 'index.php') {
+                header('Location: index.php');
+                exit();
+            }
+            break;
+    }
+} else {
+    // Default to English if no preference is set
+    if ($current_page !== 'index.php') {
+        header('Location: index.php');
+        exit();
+    }
+}
+
+
 if (isset($_POST['add_to_wishlist'])) {
 
     $pid = filter_var($_POST['pid'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -205,16 +241,27 @@ if (isset($_POST['add_to_cart'])) {
         <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
     </div>
 
-    <script>
-        function switchLanguage(lang) {
-            // Implement language switching logic here
-            alert('Switching to ' + lang);
+<script>
+    function switchLanguage(lang) {
+        let url;
+        switch(lang) {
+            case 'si':
+                url = 'sinhala/index.php';
+                break;
+            case 'ta':
+                url = 'tamil/index.php';
+                break;
+            default:
+                url = 'index.php';
+                break;
         }
-    </script>
+        window.location.href = url;
+    }
+</script>
 
 </section>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 
 <script src="js/script.js"></script>
 
