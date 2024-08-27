@@ -97,7 +97,7 @@ if(isset($_POST['update_qty'])){
 
 </section>
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 
