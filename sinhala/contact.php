@@ -25,13 +25,13 @@ if(isset($_POST['send'])){
    $select_message->execute([$name, $email, $number, $msg]);
 
    if($select_message->rowCount() > 0){
-      $message[] = 'already sent message!';
+      $message[] = 'පණිවිඩය දැනටමත් යවා ඇත!';
    }else{
 
       $insert_message = $conn->prepare("INSERT INTO `message`(user_id, name, email, number, message) VALUES(?,?,?,?,?)");
       $insert_message->execute([$user_id, $name, $email, $number, $msg]);
 
-      $message[] = 'sent message successfully!';
+      $message[] = 'පණිවිඩය සාර්ථකව යවා ඇත!';
 
    }
 
@@ -40,12 +40,12 @@ if(isset($_POST['send'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Contact | AgriConnect</title>
+   <title>ඇමතුම් | AgriConnect</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -60,26 +60,19 @@ if(isset($_POST['send'])){
 
 <section class="contact">
 
-   <h1 class="title">get in touch</h1>
+   <h1 class="title">ඇමතුම් ගන්න</h1>
 
    <form action="" method="POST">
-      <input type="text" name="name" class="box" required placeholder="enter your name">
-      <input type="email" name="email" class="box" required placeholder="enter your email">
-      <input type="number" name="number" min="0" class="box" required placeholder="enter your number">
-      <textarea name="msg" class="box" required placeholder="enter your message" cols="30" rows="10"></textarea>
-      <input type="submit" value="send message" class="btn" name="send">
+      <input type="text" name="name" class="box" required placeholder="ඔබේ නම ඇතුලත් කරන්න">
+      <input type="email" name="email" class="box" required placeholder="ඔබේ විද්‍යුත් තැපෑල ඇතුලත් කරන්න">
+      <input type="number" name="number" min="0" class="box" required placeholder="ඔබේ දුරකථන අංකය ඇතුලත් කරන්න">
+      <textarea name="msg" class="box" required placeholder="ඔබේ පණිවිඩය ඇතුලත් කරන්න" cols="30" rows="10"></textarea>
+      <input type="submit" value="පණිවිඩය යවන්න" class="btn" name="send">
    </form>
 
 </section>
 
-
-
-
-
-
-
-
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 

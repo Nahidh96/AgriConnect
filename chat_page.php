@@ -130,7 +130,7 @@ $messages->execute([$user_id, $seller_id, $seller_id, $user_id]);
 
 </section>
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 

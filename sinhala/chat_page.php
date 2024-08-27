@@ -16,7 +16,7 @@ $seller_id = $_GET['seller_id'];
 $seller_check = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
 $seller_check->execute([$seller_id]);
 if ($seller_check->rowCount() == 0) {
-    die('Invalid seller ID');
+    die('අවලංගු විකුණුම්කරු ID');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
@@ -36,12 +36,12 @@ $messages->execute([$user_id, $seller_id, $seller_id, $user_id]);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Chat with Seller</title>
+   <title>විකුණුම්කරු සමඟ කතාබහ</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
    <link rel="stylesheet" href="../css/style.css">
    <style>
@@ -109,7 +109,7 @@ $messages->execute([$user_id, $seller_id, $seller_id, $user_id]);
 
 <section class="chat">
 
-   <h1 class="title">Chat with Seller</h1>
+   <h1 class="title">විකුණුම්කරු සමඟ කතාබහ</h1>
 
    <div class="messages">
       <?php
@@ -124,13 +124,13 @@ $messages->execute([$user_id, $seller_id, $seller_id, $user_id]);
    </div>
 
    <form action="" method="POST" class="message-form">
-      <textarea name="message" rows="5" placeholder="Type your message here..." required></textarea>
-      <button type="submit" class="btn">Send</button>
+      <textarea name="message" rows="5" placeholder="ඔබගේ පණිවිඩය මෙහි ටයිප් කරන්න..." required></textarea>
+      <button type="submit" class="btn">යවන්න</button>
    </form>
 
 </section>
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 

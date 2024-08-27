@@ -8,7 +8,7 @@ $user_id = $_COOKIE['user_id'];
 
 if(!isset($user_id)){
    header('location:login.php');
-};
+}
 
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
@@ -29,18 +29,18 @@ if(isset($_POST['update_qty'])){
    $p_qty = filter_var($p_qty, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    $update_qty = $conn->prepare("UPDATE `cart` SET quantity = ? WHERE id = ?");
    $update_qty->execute([$p_qty, $cart_id]);
-   $message[] = 'cart quantity updated';
+   $message[] = 'ගාස්තු ප්‍රමාණය යාවත්කාලීන කරනු ලැබීය';
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>shopping cart</title>
+   <title>කාර්ට් | AgriConnect</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -55,7 +55,7 @@ if(isset($_POST['update_qty'])){
 
 <section class="shopping-cart">
 
-   <h1 class="title">products added</h1>
+   <h1 class="title">අමතර කළ නිෂ්පාදන</h1>
 
    <div class="box-container">
 
@@ -67,37 +67,37 @@ if(isset($_POST['update_qty'])){
          while($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)){ 
    ?>
    <form action="" method="POST" class="box">
-      <a href="cart.php?delete=<?= $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('delete this from cart?');"></a>
+      <a href="cart.php?delete=<?= $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('මෙම අයිතමය මකාදමන්නෙකද?');"></a>
       <a href="view_page.php?pid=<?= $fetch_cart['pid']; ?>" class="fas fa-eye"></a>
       <img src="uploaded_img/<?= $fetch_cart['image']; ?>" alt="">
       <div class="name"><?= $fetch_cart['name']; ?></div>
-      <div class="price">Rs.<?= $fetch_cart['price']; ?>/-</div>
+      <div class="price">රු.<?= $fetch_cart['price']; ?>/-</div>
       <input type="hidden" name="cart_id" value="<?= $fetch_cart['id']; ?>">
       <div class="flex-btn">
          <input type="number" min="1" value="<?= $fetch_cart['quantity']; ?>" class="qty" name="p_qty">
-         <input type="submit" value="update" name="update_qty" class="option-btn">
+         <input type="submit" value="යාවත්කාලීන කරන්න" name="update_qty" class="option-btn">
       </div>
-      <div class="sub-total"> sub total : <span>Rs.<?= $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']); ?>/-</span> </div>
+      <div class="sub-total"> අමතර මුදල : <span>රු.<?= $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']); ?>/-</span> </div>
    </form>
    <?php
       $grand_total += $sub_total;
       }
    }else{
-      echo '<p class="empty">your cart is empty</p>';
+      echo '<p class="empty">ඔබේ කාර්ට් හිස් වේ</p>';
    }
    ?>
    </div>
 
    <div class="cart-total">
-      <p>grand total : <span>Rs.<?= $grand_total; ?>/-</span></p>
-      <a href="shop.php" class="option-btn">continue shopping</a>
-      <a href="cart.php?delete_all" class="delete-btn <?= ($grand_total > 1)?'':'disabled'; ?>">delete all</a>
-      <a href="checkout.php" class="btn <?= ($grand_total > 1)?'':'disabled'; ?>">proceed to checkout</a>
+      <p>මුළු මුදල : <span>රු.<?= $grand_total; ?>/-</span></p>
+      <a href="shop.php" class="option-btn">සාධාරණය කිරීමට නවතම කරන්න</a>
+      <a href="cart.php?delete_all" class="delete-btn <?= ($grand_total > 1)?'':'disabled'; ?>">සියල්ල මකන්න</a>
+      <a href="checkout.php" class="btn <?= ($grand_total > 1)?'':'disabled'; ?>">ගෙවීම සඳහා ප්‍රවේශය</a>
    </div>
 
 </section>
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 

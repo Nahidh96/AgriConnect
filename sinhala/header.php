@@ -19,12 +19,12 @@ if (isset($message)) {
       <a href="index.php" class="logo">AgriConnect<span>.</span></a>
 
       <nav class="navbar">
-         <a href="index.php">home</a>
-         <a href="shop.php">shop</a>
-         <a href="orders.php">orders</a>
-         <a href="about.php">about</a>
-         <a href="contact.php">contact</a>
-         <a href="user_messages.php">messages</a>
+         <a href="index.php">මුල් පිටුව</a>
+         <a href="shop.php">වෙළඳසැල</a>
+         <a href="orders.php">ඇනවුම්</a>
+         <a href="about.php">ගැන</a>
+         <a href="contact.php">අමතන්න</a>
+         <a href="user_messages.php">පණිවිඩ</a>
       </nav>
 
       <div class="icons">
@@ -43,7 +43,7 @@ if (isset($message)) {
             $count_notifications->execute([$user_id]);
             $unread_count = $count_notifications->fetchColumn();
 
-            // Fetch all notifications
+            /// Fetch all notifications
             $notifications = $conn->prepare("SELECT * FROM `notifications` WHERE seller_id = ? ORDER BY created_at DESC");
             $notifications->execute([$user_id]);
          ?>
@@ -58,13 +58,13 @@ if (isset($message)) {
             $select_profile->execute([$user_id]);
             $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
          ?>
-         <img src="uploaded_img/<?= $fetch_profile['image']; ?>" alt="">
+         <img src="../uploaded_img/<?= $fetch_profile['image']; ?>" alt="">
          <p><?= $fetch_profile['name']; ?></p>
-         <a href="user_profile_update.php" class="btn">update profile</a>
-         <a href="logout.php" class="delete-btn">logout</a>
+         <a href="user_profile_update.php" class="btn">පැතිකඩ යාවත්කාලීන කරන්න</a>
+         <a href="logout.php" class="delete-btn">නිකුත් වන්න</a>
          <div class="flex-btn">
-            <a href="login.php" class="option-btn">login</a>
-            <a href="register.php" class="option-btn">register</a>
+            <a href="../login.php" class="option-btn">පිවිසෙන්න</a>
+            <a href="../register.php" class="option-btn">ලියාපදිංචි වන්න</a>
          </div>
       </div>
 
@@ -84,25 +84,23 @@ if (isset($message)) {
          }
       ?>
       <div class="view-all">
-          <a href="notifications.php" class="cbtn">View All Notifications</a>
+          <a href="notifications.php" class="cbtn">සියලු නිවේදන බලන්න</a>
       </div>
    </div>
 
 </header>
 
+<!-- Notifications dropdown -->
 <script>
 // Toggle notification dropdown
 document.getElementById('notification-btn').addEventListener('click', function() {
     document.getElementById('notifications').classList.toggle('show');
 });
 
-// Mark notification as read when removed
 function removeNotification(notificationId) {
-    // AJAX call to mark notification as read in the database
     fetch(`mark_notification_read.php?id=${notificationId}`)
         .then(response => response.text())
         .then(data => {
-            // Remove notification from the UI
             document.querySelector(`[data-id="${notificationId}"]`).remove();
         });
 }

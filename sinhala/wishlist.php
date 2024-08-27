@@ -133,7 +133,7 @@ if(isset($_GET['delete_all'])){
 
 
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 

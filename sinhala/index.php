@@ -115,12 +115,12 @@ if (isset($_POST['add_to_cart'])) {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>home page</title>
+   <title>මුල් පිටුව</title>
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
    <!-- custom css file link  -->
@@ -137,54 +137,54 @@ if (isset($_POST['add_to_cart'])) {
 
    <section class="home">
 
-      <div class="content">
-         <span>Don't panic, Go organic</span>
-         <h3>Reach For A Healthier You With Organic Foods</h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-         <a href="about.php" class="btn">about us</a>
-      </div>
+        <div class="content" style="font-size: 0.9em;">
+            <span style="font-size: 1.95rem;">කෙලින්ම පන්නා එපා, ස්වභාවික වර්ග තෝරන්න</span>
+            <h3 style="font-size: 2.65rem;">ඔබේ සෞඛ්‍යය තවදුරටත් උසස් කරන්න ස්වභාවික ආහාර වලින්</h3>
+            <a href="about.php" class="btn">අපි ගැන</a>
+        </div>
+
 
    </section>
 
 </div>
 
 <section class="home-category">
-    <h1 class="title">Shop by Category</h1>
+    <h1 class="title">ප්‍රවර්ග අනුව මිලදී ගන්න</h1>
 
     <div class="box-container">
         <div class="box">
             <div class="icon">
                 <i class="fas fa-apple-alt" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=fruits" class="cbtn">Fruits</a>
+            <a href="category.php?category=fruits" class="cbtn">පළතුරු</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-carrot" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=vegetables" class="cbtn">Vegetables</a>
+            <a href="category.php?category=vegetables" class="cbtn">එළවලු</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-seedling" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=fertilizers" class="cbtn">Fertilizers</a>
+            <a href="category.php?category=fertilizers" class="cbtn">පොහොර</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-tractor" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=equipments" class="cbtn">Equipments</a>
+            <a href="category.php?category=equipments" class="cbtn">උපාංග</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-lightbulb" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=startups" class="cbtn">Startups</a>
+            <a href="category.php?category=startups" class="cbtn">ව්‍යාපාර</a>
         </div>
     </div>
 </section>
@@ -192,7 +192,7 @@ if (isset($_POST['add_to_cart'])) {
 
 <section class="products">
 
-   <h1 class="title">latest products</h1>
+   <h1 class="title">නවතම නිෂ්පාදන</h1>
 
    <div class="box-container">
 
@@ -214,38 +214,38 @@ if (isset($_POST['add_to_cart'])) {
    <form action="" class="box" method="POST">
       <?php if($has_promotion){ ?>
          <div class="price">
-            <span class="original-price">Rs. <?= $original_price; ?>/-</span> 
+            <span class="original-price">රු. <?= $original_price; ?>/-</span> 
             <span class="discounted-price"> <?= number_format($discounted_price, 2); ?>/-</span>
          </div>
       <?php } else { ?>
-         <div class="price">Rs.<span><?= $fetch_products['price']; ?></span>/-</div>
+         <div class="price">රු.<span><?= $fetch_products['price']; ?></span>/-</div>
       <?php } ?>
       <a href="view_page.php?pid=<?= $fetch_products['id']; ?>" class="fas fa-eye"></a>
       <a href="chat_page.php?seller_id=<?= $fetch_products['seller_id']; ?>" class="fas fa-comments"></a>
-      <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
+      <img src="../uploaded_img/<?= $fetch_products['image']; ?>" alt="">
       <div class="name"><?= $fetch_products['name']; ?></div>
       <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
       <input type="hidden" name="p_name" value="<?= $fetch_products['name']; ?>">
       <input type="hidden" name="p_price" value="<?= $fetch_products['price']; ?>">
       <div class="pre_order">
-         <div class="preorder"><?= $fetch_products['pre_order'] ? '<span>Pre-Order</span><br>' : ''; ?></div>
+         <div class="preorder"><?= $fetch_products['pre_order'] ? '<span>පූර්ව ඇණවුම</span><br>' : ''; ?></div>
       </div>
       <input type="hidden" name="p_image" value="<?= $fetch_products['image']; ?>">
       <input type="number" min="1" value="1" name="p_qty" class="qty">
-      <input type="submit" value="add to wishlist" class="option-btn" name="add_to_wishlist">
-      <input type="submit" value="add to cart" class="btn" name="add_to_cart">
+      <input type="submit" value="ලැයිස්තුවට එකතු කරන්න" class="option-btn" name="add_to_wishlist" style="font-size: 1.8rem;">
+      <input type="submit" value="බැගයට එකතු කරන්න" class="btn" name="add_to_cart" style="font-size: 1.8rem;">
    </form>
    <?php
          }
       }else{
-         echo '<p class="empty">no products added yet!</p>';
+         echo '<p class="empty">තවමත් කිසිඳු නිෂ්පාදන එකතු කර නැත!</p>';
       }
    ?>
 
    </div>
 
    <div class="language-switcher">
-        <button class="lang-btn" onclick="switchLanguage('si')">සිංහල</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">English</button>
         <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
     </div>
 
@@ -258,7 +258,7 @@ if (isset($_POST['add_to_cart'])) {
 
 </section>
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 

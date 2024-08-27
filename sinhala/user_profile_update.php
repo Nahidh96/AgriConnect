@@ -29,14 +29,14 @@ if(isset($_POST['update_profile'])){
 
    if(!empty($image)){
       if($image_size > 2000000){
-         $message[] = 'image size is too large!';
+         $message[] = 'රූපයේ ප්‍රමාණය විශාලයි!';
       }else{
          $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
          $update_image->execute([$image, $user_id]);
          if($update_image){
             move_uploaded_file($image_tmp_name, $image_folder);
             unlink('uploaded_img/'.$old_image);
-            $message[] = 'image updated successfully!';
+            $message[] = 'රූපය සාර්ථකව යාවත්කාලීන කරන ලදි!';
          };
       };
    };
@@ -51,13 +51,13 @@ if(isset($_POST['update_profile'])){
 
    if(!empty($update_pass) AND !empty($new_pass) AND !empty($confirm_pass)){
       if($update_pass != $old_pass){
-         $message[] = 'old password not matched!';
+         $message[] = 'පැරණි මුරපදය ගැලපෙන්නේ නැත!';
       }elseif($new_pass != $confirm_pass){
-         $message[] = 'confirm password not matched!';
+         $message[] = 'අලුත් මුරපදය තහවුරු නොවේ!';
       }else{
          $update_pass_query = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
          $update_pass_query->execute([$confirm_pass, $user_id]);
-         $message[] = 'password updated successfully!';
+         $message[] = 'මුරපදය සාර්ථකව යාවත්කාලීන කරන ලදි!';
       }
    }
 
@@ -66,12 +66,12 @@ if(isset($_POST['update_profile'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>update user profile</title>
+   <title>පරිශීලක පැතිකඩ යාවත්කාලීන කරන්න</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -86,49 +86,39 @@ if(isset($_POST['update_profile'])){
 
 <section class="update-profile">
 
-   <h1 class="title">update profile</h1>
+   <h1 class="title">පැතිකඩ යාවත්කාලීන කරන්න</h1>
 
    <form action="" method="POST" enctype="multipart/form-data">
-      <img src="uploaded_img/<?= $fetch_profile['image']; ?>" alt="">
+      <img src="../uploaded_img/<?= $fetch_profile['image']; ?>" alt="">
       <div class="flex">
          <div class="inputBox">
-            <span>username :</span>
-            <input type="text" name="name" value="<?= $fetch_profile['name']; ?>" placeholder="update username" required class="box">
-            <span>email :</span>
-            <input type="email" name="email" value="<?= $fetch_profile['email']; ?>" placeholder="update email" required class="box">
-            <span>update pic :</span>
+            <span>පරිශීලක නාමය :</span>
+            <input type="text" name="name" value="<?= $fetch_profile['name']; ?>" placeholder="පරිශීලක නාමය යාවත්කාලීන කරන්න" required class="box">
+            <span>ඊ-මේල් :</span>
+            <input type="email" name="email" value="<?= $fetch_profile['email']; ?>" placeholder="ඊ-මේල් යාවත්කාලීන කරන්න" required class="box">
+            <span>නැවත පින්තූරය :</span>
             <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box">
             <input type="hidden" name="old_image" value="<?= $fetch_profile['image']; ?>">
          </div>
          <div class="inputBox">
             <input type="hidden" name="old_pass" value="<?= $fetch_profile['password']; ?>">
-            <span>old password :</span>
-            <input type="password" name="update_pass" placeholder="enter previous password" class="box">
-            <span>new password :</span>
-            <input type="password" name="new_pass" placeholder="enter new password" class="box">
-            <span>confirm password :</span>
-            <input type="password" name="confirm_pass" placeholder="confirm new password" class="box">
+            <span>පැරණි මුරපදය :</span>
+            <input type="password" name="update_pass" placeholder="පැරණි මුරපදය ඇතුල් කරන්න" class="box">
+            <span>අලුත් මුරපදය :</span>
+            <input type="password" name="new_pass" placeholder="අලුත් මුරපදය ඇතුල් කරන්න" class="box">
+            <span>මුරපදය තහවුරු කරන්න :</span>
+            <input type="password" name="confirm_pass" placeholder="අලුත් මුරපදය තහවුරු කරන්න" class="box">
          </div>
       </div>
       <div class="flex-btn">
-         <input type="submit" class="btn" value="update profile" name="update_profile">
-         <a href="index.php" class="option-btn">go back</a>
+         <input type="submit" class="btn" value="පැතිකඩ යාවත්කාලීන කරන්න" name="update_profile">
+         <a href="index.php" class="option-btn">පසුබට යන්න</a>
       </div>
    </form>
 
 </section>
 
-
-
-
-
-
-
-
-
-
-<?php include 'includes/footer.php'; ?>
-
+<?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
 
