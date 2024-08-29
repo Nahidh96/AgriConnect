@@ -1,9 +1,16 @@
 <?php
 
-$servername = "localhost"; // or the remote host name if applicable
-$username = "agriconn_nahidh"; // MySQL user
-$password = "Gp2351532!"; // MySQL password
-$database = "agriconn_agriconnect_db"; // MySQL database name
+// Added security measures by using dotenv and putting sensitive information in .env file
+
+require __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$servername = $_ENV['DB_HOST'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$database = $_ENV['DB_DATABASE'];
 
 // Create connection
 try {
