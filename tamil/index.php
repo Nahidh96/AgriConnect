@@ -4,31 +4,38 @@
 
 session_start();
 
-// Check if user_id is set in cookies
 if (!isset($_COOKIE['user_id'])) {
     header('Location: login.php');
-    exit; // Ensure script stops after redirect
+    exit; 
 }
 
-$user_id = $_COOKIE['user_id']; // Retrieve user ID from the cookie
+$user_id = $_COOKIE['user_id'];
 
 if (isset($_COOKIE['language_preference'])) {
     $language_preference = $_COOKIE['language_preference'];
 
     switch ($language_preference) {
         case 'sinhala':
-            header('Location: sinhala/index.php');
-            exit();
+            if ($current_page !== 'tamil/index.php') {
+                header('Location: tamil/index.php');
+                exit();
+            }
+            break;
         case 'tamil':
-            header('Location: tamil/index.php');
-            exit();
+            if ($current_page !== 'sinhala/index.php') {
+                header('Location: sinhala/index.php');
+                exit();
+            }
+            break;
         case 'english':
         default:
-            header('Location: index.php'); // English version
-            exit();
+            if ($current_page !== 'index.php') {
+                header('Location: index.php');
+                exit();
+            }
+            break;
     }
 } else {
-    // Default to English if no preference is set
     header('Location: index.php');
     exit();
 }
@@ -91,14 +98,13 @@ if (isset($_POST['add_to_cart'])) {
 
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ta">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>home page</title>
+   <title>முகப்புப் பக்கம்</title>
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
    <!-- custom css file link  -->
@@ -116,10 +122,10 @@ if (isset($_POST['add_to_cart'])) {
    <section class="home">
 
       <div class="content">
-         <span>Don't panic, Go organic</span>
-         <h3>Reach For A Healthier You With Organic Foods</h3>
+         <span>வெறுக்க வேண்டாம், ஆர்கானிக் பண்ணுங்கள்</span>
+         <h3>ஆரோக்கியமான உங்கள் நோக்கத்திற்காக ஆர்கானிக் உணவுகளைத் தேர்வு செய்யுங்கள்</h3>
          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-         <a href="about.php" class="btn">about us</a>
+         <a href="about.php" class="btn">எங்களை பற்றி</a>
       </div>
 
    </section>
@@ -127,42 +133,42 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 
 <section class="home-category">
-    <h1 class="title">Shop by Category</h1>
+    <h1 class="title">வகைப்பட சிறப்பிக்க</h1>
 
     <div class="box-container">
         <div class="box">
             <div class="icon">
                 <i class="fas fa-apple-alt" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=fruits" class="cbtn">Fruits</a>
+            <a href="category.php?category=fruits" class="cbtn">பழங்கள்</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-carrot" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=vegetables" class="cbtn">Vegetables</a>
+            <a href="category.php?category=vegetables" class="cbtn">காய்கறிகள்</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-seedling" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=fertilizers" class="cbtn">Fertilizers</a>
+            <a href="category.php?category=fertilizers" class="cbtn">உழவர் உரங்கள்</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-tractor" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=equipments" class="cbtn">Equipments</a>
+            <a href="category.php?category=equipments" class="cbtn">பயன்பாட்டு உபகரணங்கள்</a>
         </div>
 
         <div class="box">
             <div class="icon">
                 <i class="fas fa-lightbulb" style="color: #1f5120;"></i>
             </div>
-            <a href="category.php?category=startups" class="cbtn">Startups</a>
+            <a href="category.php?category=startups" class="cbtn">ஆரம்பகால திட்டங்கள்</a>
         </div>
     </div>
 </section>
@@ -170,7 +176,7 @@ if (isset($_POST['add_to_cart'])) {
 
 <section class="products">
 
-   <h1 class="title">latest products</h1>
+   <h1 class="title">சமீபத்திய தயாரிப்புகள்</h1>
 
    <div class="box-container">
 
@@ -192,11 +198,11 @@ if (isset($_POST['add_to_cart'])) {
    <form action="" class="box" method="POST">
       <?php if($has_promotion){ ?>
          <div class="price">
-            <span class="original-price">Rs. <?= $original_price; ?>/-</span> 
+            <span class="original-price">ரூ. <?= $original_price; ?>/-</span> 
             <span class="discounted-price"> <?= number_format($discounted_price, 2); ?>/-</span>
          </div>
       <?php } else { ?>
-         <div class="price">Rs.<span><?= $fetch_products['price']; ?></span>/-</div>
+         <div class="price">ரூ.<span><?= $fetch_products['price']; ?></span>/-</div>
       <?php } ?>
       <a href="view_page.php?pid=<?= $fetch_products['id']; ?>" class="fas fa-eye"></a>
       <a href="chat_page.php?seller_id=<?= $fetch_products['seller_id']; ?>" class="fas fa-comments"></a>
@@ -205,39 +211,25 @@ if (isset($_POST['add_to_cart'])) {
       <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
       <input type="hidden" name="p_name" value="<?= $fetch_products['name']; ?>">
       <input type="hidden" name="p_price" value="<?= $fetch_products['price']; ?>">
-      <div class="pre_order">
-         <div class="preorder"><?= $fetch_products['pre_order'] ? '<span>Pre-Order</span><br>' : ''; ?></div>
-      </div>
       <input type="hidden" name="p_image" value="<?= $fetch_products['image']; ?>">
-      <input type="number" min="1" value="1" name="p_qty" class="qty">
-      <input type="submit" value="add to wishlist" class="option-btn" name="add_to_wishlist">
-      <input type="submit" value="add to cart" class="btn" name="add_to_cart">
+      <button type="submit" name="add_to_wishlist" class="fas fa-heart"></button>
+      <input type="number" min="1" name="p_qty" value="1" class="qty">
+      <button type="submit" name="add_to_cart" class="btn">கூடையில் சேர்</button>
    </form>
    <?php
          }
       }else{
-         echo '<p class="empty">no products added yet!</p>';
+         echo '<p class="empty">முடிவுகள் இல்லை!</p>';
       }
    ?>
 
    </div>
 
-   <div class="language-switcher">
-        <button class="lang-btn" onclick="switchLanguage('si')">සිංහල</button>
-        <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
-    </div>
-
-    <script>
-        function switchLanguage(lang) {
-            // Implement language switching logic here
-            alert('Switching to ' + lang);
-        }
-    </script>
-
 </section>
 
 <?php include 'footer.php'; ?>
 
+<!-- custom js file link  -->
 <script src="js/script.js"></script>
 
 </body>
