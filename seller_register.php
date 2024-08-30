@@ -1,51 +1,54 @@
 <?php
-
 include 'config.php';
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
+    $address = $_POST['address'];
+    $business_name = $_POST['business_name'];
+    $terms_agreed = isset($_POST['terms_agreed']) ? $_POST['terms_agreed'] : '';
 
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-   $pass = md5($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-   $cpass = md5($_POST['cpass']);
-   $cpass = filter_var($cpass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    // Validate terms agreement
+    if ($terms_agreed != 'on') {
+        $message[] = 'You must agree to the terms and conditions!';
+    } else {
+        // Get the user ID from the cookie
+        $user_id = $_COOKIE['user_id'] ?? null;
 
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = 'uploaded_img/'.$image;
+        if ($user_id) {
+            try {
+                // Check if the user is currently registered as a user
+                $select = $conn->prepare("SELECT user_type FROM `users` WHERE id = ?");
+                $select->execute([$user_id]);
+                $user = $select->fetch(PDO::FETCH_ASSOC);
 
-   $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-   $select->execute([$email]);
+                if ($user) {
+                    $current_user_type = $user['user_type'];
 
-   if($select->rowCount() > 0){
-      $message[] = 'user email already exist!';
-   } else {
-      if($pass != $cpass){
-         $message[] = 'confirm password not matched!';
-      } else {
-         $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image, user_type) VALUES(?,?,?,?,?)");
-         $insert->execute([$name, $email, $pass, $image, 'seller']);
+                    // If the user is currently a 'user', update to 'seller'
+                    if ($current_user_type == 'user') {
+                        $update = $conn->prepare("UPDATE `users` SET user_type = 'seller', address = ?, business_name = ? WHERE id = ?");
+                        $update->execute([$address, $business_name, $user_id]);
 
-         if($insert){
-            if($image_size > 2000000){
-               $message[] = 'image size is too large!';
-            } else {
-               move_uploaded_file($image_tmp_name, $image_folder);
-               $message[] = 'registered successfully!';
-               header('location:login.php');
+                        if ($update) {
+                            $message[] = 'Successfully registered as a seller!';
+                            header('Location: seller_page.php');
+                            exit(); // Prevent further execution after redirection
+                        } else {
+                            $message[] = 'Registration failed!';
+                        }
+                    } else {
+                        $message[] = 'You are already registered as a seller or have another user type!';
+                    }
+                } else {
+                    $message[] = 'User not found!';
+                }
+            } catch (PDOException $e) {
+                $message[] = 'Database error: ' . $e->getMessage();
             }
-         }
-
-      }
-   }
-
+        } else {
+            $message[] = 'User ID is not set in cookies!';
+        }
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -55,39 +58,43 @@ if(isset($_POST['submit'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Seller Registration</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/components.css">
+
 </head>
 <body class="custom-bg">
 
-
 <?php
-
-if(isset($message)){
-   foreach($message as $message){
-      echo '
-      <div class="message">
-         <span>'.$message.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-   }
+if (isset($message)) {
+    foreach ($message as $msg) {
+        echo '
+        <div class="message">
+            <span>' . $msg . '</span>
+            <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+        </div>
+        ';
+    }
 }
-
 ?>
-
+   
 <section class="form-container">
 
-   <form action="" enctype="multipart/form-data" method="POST">
-      <h3>Register Admin</h3>
-      <input type="text" name="name" class="box" placeholder="enter your name" required>
-      <input type="email" name="email" class="box" placeholder="enter your email" required>
-      <input type="password" name="pass" class="box" placeholder="enter your password" required>
-      <input type="password" name="cpass" class="box" placeholder="confirm your password" required>
-      <input type="file" name="image" class="box" required accept="image/jpg, image/jpeg, image/png">
-      <input type="submit" value="register now" class="btn" name="submit">
-      <p>already have an account? <a href="admin_login.php">login now</a></p>
-   </form>
+   <form action="" method="POST">
+      <h3>Complete Seller Registration</h3>
+      <input type="text" name="address" class="box" placeholder="Enter your home address" required>
+      <input type="text" name="business_name" class="box" placeholder="Enter your business name" required>
 
+      <label>
+         <input type="checkbox" name="terms_agreed">
+         I agree to the <a href="terms_conditions.php" target="_blank">terms and conditions</a>.
+      </label>
+
+      <input type="submit" value="Register as Seller" class="btn" name="submit">
+   </form>
 </section>
 
 </body>

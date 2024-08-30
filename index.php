@@ -1,6 +1,18 @@
 <?php
 
-@include 'config.php';
+include 'config.php';
+
+if (isset($_COOKIE['user_id'])) {
+    $user_id = $_COOKIE['user_id'];
+    
+    // Retrieve the user type from the database
+    $select_user = $conn->prepare("SELECT user_type FROM `users` WHERE id = ?");
+    $select_user->execute([$user_id]);
+    $user = $select_user->fetch(PDO::FETCH_ASSOC);
+    $user_type = $user['user_type']; // This will be 'seller' or 'user'
+} else {
+    $user_type = ''; // Default value if user is not logged in
+}
 
 session_start();
 
@@ -74,12 +86,11 @@ if (isset($_POST['add_to_wishlist'])) {
 }
 
 if (isset($_POST['add_to_cart'])) {
-
-    $pid = filter_var($_POST['pid'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $p_qty = filter_var($_POST['p_qty'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $pid = filter_var($_POST['pid'], FILTER_SANITIZE_NUMBER_INT);
+    $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_STRING);
+    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_NUMBER_INT);
+    $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_STRING);
+    $p_qty = filter_var($_POST['p_qty'], FILTER_SANITIZE_NUMBER_INT);
 
     $check_cart_numbers = $conn->prepare("SELECT * FROM `cart` WHERE name = ? AND user_id = ?");
     $check_cart_numbers->execute([$p_name, $user_id]);
@@ -87,7 +98,6 @@ if (isset($_POST['add_to_cart'])) {
     if ($check_cart_numbers->rowCount() > 0) {
         $message[] = 'already added to cart!';
     } else {
-
         $check_wishlist_numbers = $conn->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
         $check_wishlist_numbers->execute([$p_name, $user_id]);
 
@@ -96,12 +106,15 @@ if (isset($_POST['add_to_cart'])) {
             $delete_wishlist->execute([$p_name, $user_id]);
         }
 
-        $insert_cart = $conn->prepare("INSERT INTO `cart`(user_id, pid, name, price, quantity, image) VALUES(?,?,?,?,?,?)");
-        $insert_cart->execute([$user_id, $pid, $p_name, $p_price, $p_qty, $p_image]);
-        $message[] = 'added to cart!';
+        $insert_cart = $conn->prepare("INSERT INTO `cart` (user_id, pid, name, price, quantity, image, product_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        if ($insert_cart->execute([$user_id, $pid, $p_name, $p_price, $p_qty, $p_image, $pid])) {
+            $message[] = 'added to cart!';
+        } else {
+            print_r($insert_cart->errorInfo()); // Print SQL error information
+        }
     }
-
 }
+
 
 ?>
 
@@ -126,19 +139,19 @@ if (isset($_POST['add_to_cart'])) {
 <?php include 'header.php'; ?>
 
 <div class="home-bg">
-
-   <section class="home">
-
-      <div class="content">
-         <span>Don't panic, Go organic</span>
-         <h3>Reach For A Healthier You With Organic Foods</h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-         <a href="about.php" class="btn">about us</a>
-      </div>
-
-   </section>
-
+    <section class="home">
+        <div class="content">
+            <span>Don't panic, Go organic</span>
+            <h3>Reach For A Healthier You With Organic Foods</h3>
+            <p>Discover the pure, natural benefits of organic living.</p>
+            <a href="about.php" class="btn">about us</a>
+            <?php if ($user_type === 'seller'): ?>
+                <a href="seller_page.php" class="btn">Seller Dashboard</a>
+            <?php endif; ?>
+        </div>
+    </section>
 </div>
+
 
 <section class="home-category">
     <h1 class="title">Shop by Category</h1>
@@ -194,10 +207,11 @@ if (isset($_POST['add_to_cart'])) {
          FROM `products` p 
          LEFT JOIN `promotions` pr ON p.id = pr.product_id 
          AND pr.start_date <= CURDATE() AND pr.end_date >= CURDATE() 
-         LIMIT 6
+         LIMIT 15
       ");
       $select_products->execute();
       if($select_products->rowCount() > 0){
+         $counter = 0; // Initialize counter
          while($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)){ 
             $has_promotion = !empty($fetch_products['discount']);
             $original_price = $fetch_products['price'];
@@ -227,7 +241,20 @@ if (isset($_POST['add_to_cart'])) {
       <input type="submit" value="add to wishlist" class="option-btn" name="add_to_wishlist">
       <input type="submit" value="add to cart" class="btn" name="add_to_cart">
    </form>
+
    <?php
+            $counter++; // Increment counter
+
+            // Insert the notice after the 4th product
+            if($counter == 3) {
+   ?>
+   <div class="notice">
+       <h3>Join Us as a Seller Today!</h3>
+       <p>Grow your business with us. Reach more customers and increase your sales effortlessly.</p>
+       <a href="seller_register.php" class="option-btn">Start Selling</a>
+   </div>
+   <?php
+            }
          }
       }else{
          echo '<p class="empty">no products added yet!</p>';
@@ -235,7 +262,7 @@ if (isset($_POST['add_to_cart'])) {
    ?>
 
    </div>
-
+   
    <div class="language-switcher">
         <button class="lang-btn" onclick="switchLanguage('si')">සිංහල</button>
         <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>

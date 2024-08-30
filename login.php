@@ -1,51 +1,37 @@
 <?php
+include 'config.php';
 
-@include 'config.php';
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $pass = md5($_POST['pass']);
+    $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-if(isset($_POST['submit'])){
+    // Check user credentials
+    $select = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ?");
+    $select->execute([$email, $pass]);
 
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-   $pass = md5($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    if ($select->rowCount() > 0) {
+        $user = $select->fetch(PDO::FETCH_ASSOC);
+        $user_id = $user['id'];
+        $user_type = $user['user_type'];
 
-   $sql = "SELECT * FROM `users` WHERE email = ? AND password = ?";
-   $stmt = $conn->prepare($sql);
-   $stmt->execute([$email, $pass]);
-   $rowCount = $stmt->rowCount();  
+        // Set cookies for user session
+        $cookie_expiration_time = time() + (86400 * 30); // 30 days expiry
+        setcookie('user_id', $user_id, $cookie_expiration_time, "/");
 
-   $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-   if($rowCount > 0){
-
-      // Set cookie expiration time to 30 days
-      $cookie_expiration_time = time() + (86400 * 30);
-
-      if($row['user_type'] == 'admin'){
-
-         setcookie('admin_id', $row['id'], $cookie_expiration_time, "/");
-         header('location:admin_page.php');
-
-      }elseif($row['user_type'] == 'user'){
-
-         setcookie('user_id', $row['id'], $cookie_expiration_time, "/");
-         header('location:index.php');
-
-      }elseif($row['user_type'] == 'seller'){
-
-         setcookie('seller_id', $row['id'], $cookie_expiration_time, "/");
-         header('location:seller_page.php');
-
-      }else{
-         $message[] = 'no user found!';
-      }
-
-   }else{
-      $message[] = 'incorrect email or password!';
-   }
-
+        // Redirect based on user type
+        if ($user_type === 'seller') {
+            header('Location: choose_page.php');
+            exit();
+        } else {
+            header('Location: index.php');
+            exit();
+        }
+    } else {
+        $message[] = 'Invalid email or password!';
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +40,7 @@ if(isset($_POST['submit'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>login</title>
+   <title>Login</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -63,34 +49,30 @@ if(isset($_POST['submit'])){
    <link rel="stylesheet" href="css/components.css">
 
 </head>
-
 <body class="custom-bg">
 
 <?php
-
 if(isset($message)){
-   foreach($message as $message){
+   foreach($message as $msg){
       echo '
       <div class="message">
-         <span>'.$message.'</span>
+         <span>'.$msg.'</span>
          <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
       </div>
       ';
    }
 }
-
 ?>
-   
+
 <section class="form-container">
 
    <form action="" method="POST">
-      <h3>login now</h3>
-      <input type="email" name="email" class="box" placeholder="enter your email" required>
-      <input type="password" name="pass" class="box" placeholder="enter your password" required>
-      <input type="submit" value="login now" class="btn" name="submit">
-      <p>don't have an account? <a href="register.php">register now</a></p>
+      <h3>Login</h3>
+      <input type="email" name="email" class="box" placeholder="Enter your email" required>
+      <input type="password" name="pass" class="box" placeholder="Enter your password" required>
+      <input type="submit" value="Login" class="btn" name="login">
+      <p>Don't have an account? <a href="register.php">Register now</a></p>
    </form>
-
 </section>
 
 </body>

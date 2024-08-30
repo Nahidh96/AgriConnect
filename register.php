@@ -2,90 +2,58 @@
 include 'config.php';
 
 if(isset($_POST['submit'])) {
-    $type = $_POST['type']; // Added to distinguish between user and seller registration
     $language_preference = $_POST['language_preference'];
+    
+    // User registration
+    $name = $_POST['name'];
+    $name = filter_var($name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $email = $_POST['email'];
+    $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $phone = $_POST['phone'];
+    $phone = filter_var($phone, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $pass = md5($_POST['pass']);
+    $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $cpass = md5($_POST['cpass']);
+    $cpass = filter_var($cpass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    if ($type == 'user') {
-        // User registration
-        $name = $_POST['name'];
-        $name = filter_var($name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $email = $_POST['email'];
-        $email = filter_var($email, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $pass = md5($_POST['pass']);
-        $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $cpass = md5($_POST['cpass']);
-        $cpass = filter_var($cpass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
+    if(!empty($_FILES['image']['name'])) {
         $image = $_FILES['image']['name'];
         $image = filter_var($image, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $image_size = $_FILES['image']['size'];
         $image_tmp_name = $_FILES['image']['tmp_name'];
         $image_folder = 'uploaded_img/'.$image;
+    } else {
+        $image = 'default.png';
+        $image_folder = 'images/'.$image;
+    }
 
-        $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-        $select->execute([$email]);
+    $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+    $select->execute([$email]);
 
-        if($select->rowCount() > 0){
-            $message[] = 'User email already exists!';
+    if($select->rowCount() > 0){
+        $message[] = 'User email already exists!';
+    } else {
+        if($pass != $cpass){
+            $message[] = 'Confirm password not matched!';
         } else {
-            if($pass != $cpass){
-                $message[] = 'Confirm password not matched!';
-            } else {
-                $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image, user_type, language_preference) VALUES(?,?,?,?,?,?)");
-                $insert->execute([$name, $email, $pass, $image, 'user', $language_preference]);
+            $insert = $conn->prepare("INSERT INTO `users`(name, email, phone, password, image, user_type, language_preference) VALUES(?,?,?,?,?,?,?)");
+            $insert->execute([$name, $email, $phone, $pass, $image, 'user', $language_preference]);
 
-                if($insert){
-                    setcookie('language_preference', $language_preference, time() + (86400 * 30), "/"); // 30 days expiry
-                    if($image_size > 2000000){
-                        $message[] = 'Image size is too large!';
-                    } else {
+            if($insert){
+                // Setting cookies after successful registration
+                $cookie_expiration_time = time() + (86400 * 30); // 30 days expiry
+                setcookie('user_id', $conn->lastInsertId(), $cookie_expiration_time, "/");
+                setcookie('language_preference', $language_preference, $cookie_expiration_time, "/");
+
+                if(!empty($_FILES['image']['name']) && $image_size > 2000000){
+                    $message[] = 'Image size is too large!';
+                } else {
+                    if(!empty($_FILES['image']['name'])){
                         move_uploaded_file($image_tmp_name, $image_folder);
-                        $message[] = 'Registered successfully!';
-                        header('location:login.php');
-                        exit(); // Added to prevent further execution after redirection
                     }
-                }
-            }
-        }
-    } elseif ($type == 'seller') {
-        // Seller registration
-        $name = $_POST['name'];
-        $name = filter_var($name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $email = $_POST['email'];
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        $pass = md5($_POST['pass']);
-        $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $cpass = md5($_POST['cpass']);
-        $cpass = filter_var($cpass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        $image = $_FILES['image']['name'];
-        $image = filter_var($image, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $image_size = $_FILES['image']['size'];
-        $image_tmp_name = $_FILES['image']['tmp_name'];
-        $image_folder = 'uploaded_img/'.$image;
-
-        $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-        $select->execute([$email]);
-
-        if($select->rowCount() > 0){
-            $message[] = 'User email already exists!';
-        } else {
-            if($pass != $cpass){
-                $message[] = 'Confirm password not matched!';
-            } else {
-                $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image, user_type, language_preference) VALUES(?,?,?,?,?,?)");
-                $insert->execute([$name, $email, $pass, $image, 'seller', $language_preference]);
-
-                if($insert){
-                    setcookie('language_preference', $language_preference, time() + (86400 * 30), "/"); // 30 days expiry
-                    if($image_size > 2000000){
-                        $message[] = 'Image size is too large!';
-                    } else {
-                        move_uploaded_file($image_tmp_name, $image_folder);
-                        $message[] = 'Registered successfully!';
-                        header('location:seller_login.php');
-                        exit(); // Added to prevent further execution after redirection
-                    }
+                    $message[] = 'Registered successfully!';
+                    header('location:index.php');
+                    exit(); // Added to prevent further execution after redirection
                 }
             }
         }
@@ -127,16 +95,12 @@ if(isset($message)){
 
    <form action="" enctype="multipart/form-data" method="POST">
       <h3>Register Now</h3>
-      <label for="user">Register as:</label>
-      <select name="type" id="user" required>
-         <option value="user">User</option>
-         <option value="seller">Seller</option>
-      </select>
       <input type="text" name="name" class="box" placeholder="Enter your name" required>
       <input type="email" name="email" class="box" placeholder="Enter your email" required>
+      <input type="text" name="phone" class="box" placeholder="Enter your phone number" required>
       <input type="password" name="pass" class="box" placeholder="Enter your password" required>
       <input type="password" name="cpass" class="box" placeholder="Confirm your password" required>
-      <input type="file" name="image" class="box" required accept="image/jpg, image/jpeg, image/png">
+      <!--<input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">-->
 
       <label for="language_preference">Language Preference:</label>
       <select name="language_preference" id="language_preference" required>

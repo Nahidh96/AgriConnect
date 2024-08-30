@@ -16,19 +16,20 @@ if (isset($_COOKIE['language_preference'])) {
 
     switch ($language_preference) {
         case 'sinhala':
+            if ($current_page !== 'index.php') {
+                header('Location: sinhala/index.php');
+                exit();
+            }
+            break;
+        case 'tamil':
             if ($current_page !== 'tamil/index.php') {
                 header('Location: tamil/index.php');
                 exit();
             }
             break;
-        case 'tamil':
-            if ($current_page !== 'sinhala/index.php') {
-                header('Location: sinhala/index.php');
-                exit();
-            }
-            break;
         case 'english':
         default:
+            // Only redirect if not already on 'index.php'
             if ($current_page !== 'index.php') {
                 header('Location: index.php');
                 exit();
@@ -36,8 +37,11 @@ if (isset($_COOKIE['language_preference'])) {
             break;
     }
 } else {
-    header('Location: index.php');
-    exit();
+    // Default to English if no preference is set
+    if ($current_page !== 'index.php') {
+        header('Location: index.php');
+        exit();
+    }
 }
 
 

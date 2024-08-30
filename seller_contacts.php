@@ -4,11 +4,25 @@
 
 session_start();
 
-$seller_id = $_COOKIE['seller_id'];
+// Check if user_id is set in cookies
+$user_id = $_COOKIE['user_id'] ?? null;
 
-if(!isset($seller_id)){
-   header('location:seller_login.php');
+if (!$user_id) {
+    header('Location: login.php');
+    exit();
 }
+
+// Fetch seller_id and user_type from the users table
+$select = $conn->prepare("SELECT id, user_type FROM `users` WHERE id = ?");
+$select->execute([$user_id]);
+$user = $select->fetch(PDO::FETCH_ASSOC);
+
+if (!$user || $user['user_type'] !== 'seller') {
+    header('Location: login.php');
+    exit();
+}
+
+$seller_id = $user['id']; // Define seller_id based on fetched user_id
 
 $message = []; // Initialize as an array to store multiple messages
 
@@ -48,8 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message']) && isset($
       <?php
          $select_messages = $conn->prepare("SELECT DISTINCT sender_id FROM `messages` WHERE receiver_id = ?");
          $select_messages->execute([$seller_id]);
-         if($select_messages->rowCount() > 0){
-            while($fetch_sender = $select_messages->fetch(PDO::FETCH_ASSOC)){
+
+         if ($select_messages->rowCount() > 0) {
+            while ($fetch_sender = $select_messages->fetch(PDO::FETCH_ASSOC)) {
                 $sender_id = $fetch_sender['sender_id'];
                 
                 // Fetch user details
@@ -73,13 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message']) && isset($
          
          <form action="" method="POST" class="message-form">
             <textarea name="message" rows="5" placeholder="Type your message here..." required></textarea>
-            <input type="hidden" name="receiver_id" value="<?= $sender_id; ?>">
+            <input type="hidden" name="receiver_id" value="<?= htmlspecialchars($sender_id); ?>">
             <button type="submit" class="btn">Send</button>
          </form>
       </div>
       <?php
             }
-         }else{
+         } else {
             echo '<p class="empty">No messages yet!</p>';
          }
       ?>

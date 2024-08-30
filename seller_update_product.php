@@ -5,10 +5,22 @@
 
 session_start();
 
-$seller_id = $_COOKIE['seller_id'];
+// Check if user_id is set in cookies
+$user_id = $_COOKIE['user_id'] ?? null;
 
-if (!isset($seller_id)) {
-   header('location:login.php');
+if (!$user_id) {
+    header('Location: login.php');
+    exit();
+}
+
+// Check if the user is a seller
+$select = $conn->prepare("SELECT user_type FROM `users` WHERE id = ?");
+$select->execute([$user_id]);
+$user = $select->fetch(PDO::FETCH_ASSOC);
+
+if (!$user || $user['user_type'] !== 'seller') {
+    header('Location: login.php');
+    exit();
 }
 
 if (isset($_GET['update'])) {

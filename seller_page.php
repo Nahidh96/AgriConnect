@@ -4,11 +4,25 @@
 
 session_start();
 
-$seller_id = $_COOKIE['seller_id'];
+// Check if user_id is set in cookies
+$user_id = $_COOKIE['user_id'] ?? null;
 
-if(!isset($seller_id)){
-   header('location:seller_login.php');
+if (!$user_id) {
+    header('Location: login.php');
+    exit();
 }
+
+// Check if the user is a seller
+$select = $conn->prepare("SELECT id, user_type FROM `users` WHERE id = ?");
+$select->execute([$user_id]);
+$user = $select->fetch(PDO::FETCH_ASSOC);
+
+if (!$user || $user['user_type'] !== 'seller') {
+    header('Location: login.php');
+    exit();
+}
+
+$seller_id = $user['id']; // Set seller_id based on fetched user_id
 
 ?>
 
@@ -39,9 +53,9 @@ if(!isset($seller_id)){
          $select_earnings->execute([$seller_id, 'completed']);
          while($fetch_earnings = $select_earnings->fetch(PDO::FETCH_ASSOC)){
             $total_earnings += $fetch_earnings['total_price'];
-         };
+         }
       ?>
-      <h3>Rs. <?= $total_earnings; ?>/-</h3>
+      <h3>Rs. <?= number_format($total_earnings, 2); ?>/-</h3>
       <p>Total Earnings</p>
       </div>
 
@@ -85,7 +99,7 @@ if(!isset($seller_id)){
          $recent_orders->execute([$seller_id]);
          while($fetch_recent_orders = $recent_orders->fetch(PDO::FETCH_ASSOC)){
       ?>
-      <p> Order ID: <?= $fetch_recent_orders['id']; ?> | Placed on: <?= $fetch_recent_orders['placed_on']; ?> | Total: Rs. <?= $fetch_recent_orders['total_price']; ?>/- </p>
+      <p> Order ID: <?= $fetch_recent_orders['id']; ?> | Placed on: <?= $fetch_recent_orders['placed_on']; ?> | Total: Rs. <?= number_format($fetch_recent_orders['total_price'], 2); ?>/- </p>
       <?php
          }
       ?>
@@ -142,7 +156,7 @@ if(!isset($seller_id)){
          $top_products->execute([$seller_id]);
          while($fetch_top_products = $top_products->fetch(PDO::FETCH_ASSOC)){
       ?>
-      <p> <?= $fetch_top_products['name']; ?>: Rs. <?= $fetch_top_products['total_sales']; ?>/- </p>
+      <p> <?= $fetch_top_products['name']; ?>: Rs. <?= number_format($fetch_top_products['total_sales'], 2); ?>/- </p>
       <?php
          }
       ?>
@@ -204,7 +218,6 @@ if(!isset($seller_id)){
 
 </section>
 
-<script src="js/script.js"></script>
-
+<script src="js/admin_script.js"></script>
 </body>
 </html>
