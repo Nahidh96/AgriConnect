@@ -1,6 +1,7 @@
 # AgriConnect
 
-Welcome to your project! This repository contains a PHP website that requires setup steps to run locally.
+Welcome! This repository contains a PHP website that requires setup steps to run locally.
+This repository's content and the website content was developed by Nahidh Naseem
 
 ## Installation
 
