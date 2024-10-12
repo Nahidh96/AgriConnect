@@ -36,12 +36,12 @@ if (isset($_COOKIE['language_preference'])) {
                 exit();
             }
             break;
-        case 'tamil':
-            if ($current_page !== 'index.php') {
-                header('Location: tamil/index.php');
-                exit();
-            }
-            break;
+        // case 'tamil':
+        //     if ($current_page !== 'index.php') {
+        //         header('Location: tamil/index.php');
+        //         exit();
+        //     }
+        //     break;
         case 'english':
         default:
             // Only redirect if not already on 'index.php'
@@ -61,11 +61,19 @@ if (isset($_COOKIE['language_preference'])) {
 
 
 if (isset($_POST['add_to_wishlist'])) {
-
     $pid = filter_var($_POST['pid'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+    // Check if there's a discount on the product
+    $select_discount = $conn->prepare("SELECT discount FROM `promotions` WHERE product_id = ? AND start_date <= CURDATE() AND end_date >= CURDATE()");
+    $select_discount->execute([$pid]);
+    $discount = $select_discount->fetchColumn();
+    
+    if ($discount) {
+        $p_price = $p_price * (1 - $discount / 100); // Calculate discounted price
+    }
 
     $check_wishlist_numbers = $conn->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
     $check_wishlist_numbers->execute([$p_name, $user_id]);
@@ -82,15 +90,29 @@ if (isset($_POST['add_to_wishlist'])) {
         $insert_wishlist->execute([$user_id, $pid, $p_name, $p_price, $p_image]);
         $message[] = 'added to wishlist!';
     }
-
 }
 
 if (isset($_POST['add_to_cart'])) {
     $pid = filter_var($_POST['pid'], FILTER_SANITIZE_NUMBER_INT);
     $p_name = filter_var($_POST['p_name'], FILTER_SANITIZE_STRING);
-    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_NUMBER_INT);
+    $p_price = filter_var($_POST['p_price'], FILTER_SANITIZE_NUMBER_INT); // This will be replaced with the discounted price if available
     $p_image = filter_var($_POST['p_image'], FILTER_SANITIZE_STRING);
     $p_qty = filter_var($_POST['p_qty'], FILTER_SANITIZE_NUMBER_INT);
+
+    // Check if a discount is available for the product
+    $check_discount = $conn->prepare("
+        SELECT pr.discount 
+        FROM `products` p 
+        LEFT JOIN `promotions` pr ON p.id = pr.product_id 
+        WHERE p.id = ? AND pr.start_date <= CURDATE() AND pr.end_date >= CURDATE()
+    ");
+    $check_discount->execute([$pid]);
+    $discount_data = $check_discount->fetch(PDO::FETCH_ASSOC);
+
+    if ($discount_data) {
+        $discount = $discount_data['discount'];
+        $p_price = $p_price * (1 - $discount / 100); // Apply the discount to the price
+    }
 
     $check_cart_numbers = $conn->prepare("SELECT * FROM `cart` WHERE name = ? AND user_id = ?");
     $check_cart_numbers->execute([$p_name, $user_id]);
@@ -125,6 +147,11 @@ if (isset($_POST['add_to_cart'])) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Agriconnect offers a wide range of organic farming products, including fruits, vegetables, fertilizers, and equipment. Discover the benefits of organic living with us.">
+   <meta name="keywords" content="organic food, fruits, vegetables, fertilizers, organic farming, Agriconnect, AgriConnect LK, AgriConnect Sri Lanka, Nahidh Naseem">
+   <meta name="robots" content="index, follow">
+   <link rel="canonical" href="https://www.agriconnect.lk/">
+   <meta name="author" content="Nahidh Naseem | Agriconnect Team">
    <title>home page</title>
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -132,7 +159,6 @@ if (isset($_POST['add_to_cart'])) {
    <link rel="stylesheet" href="css/style.css">
    <!-- favicon -->
    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-
 </head>
 <body>
    
@@ -251,7 +277,7 @@ if (isset($_POST['add_to_cart'])) {
    <div class="notice">
        <h3>Join Us as a Seller Today!</h3>
        <p>Grow your business with us. Reach more customers and increase your sales effortlessly.</p>
-       <a href="seller_register.php" class="option-btn">Start Selling</a>
+       <a href="seller_r.php" class="option-btn">Start Selling</a>
    </div>
    <?php
             }
@@ -265,7 +291,7 @@ if (isset($_POST['add_to_cart'])) {
    
    <div class="language-switcher">
         <button class="lang-btn" onclick="switchLanguage('si')">සිංහල</button>
-        <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
+        <!--<button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>-->
     </div>
 
 <script>

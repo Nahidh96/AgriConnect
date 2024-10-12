@@ -22,7 +22,7 @@
 .custom-bg {
    background: url('../project images/bg.png') no-repeat center center fixed;
    background-size: cover;
-   position: relative;
+   position: relative;  
 }
 
 .custom-bg::before {

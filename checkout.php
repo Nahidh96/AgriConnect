@@ -87,6 +87,7 @@ if(isset($_POST['order'])){
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
+   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
 </head>
 <body>
@@ -137,9 +138,9 @@ if(isset($_POST['order'])){
             <span>payment method :</span>
             <select name="method" class="box" required>
                <option value="cash on delivery">cash on delivery</option>
-               <option value="credit card">credit card</option>
+               <!--<option value="credit card">credit card</option>
                <option value="paytm">paytm</option>
-               <option value="paypal">paypal</option>
+               <option value="paypal">paypal</option>-->
             </select>
          </div>
          <div class="inputBox">
@@ -172,7 +173,7 @@ if(isset($_POST['order'])){
 
    </form>
 
-</section>
+</section>zz
 
 <?php include 'footer.php'; ?>
 

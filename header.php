@@ -12,6 +12,7 @@ if (isset($message)) {
 
 ?>
 
+
 <header class="header">
 
    <div class="flex">
@@ -19,12 +20,12 @@ if (isset($message)) {
       <a href="index.php" class="logo">AgriConnect<span>.</span></a>
 
       <nav class="navbar">
-         <a href="index.php">home</a>
-         <a href="shop.php">shop</a>
-         <a href="orders.php">orders</a>
-         <a href="about.php">about</a>
-         <a href="contact.php">contact</a>
-         <a href="user_messages.php">messages</a>
+         <a href="index.php">Home</a>
+         <a href="shop.php">Shop</a>
+         <a href="orders.php">Orders</a>
+         <a href="about.php">About</a>
+         <a href="contact.php">Contact</a>
+         <a href="user_messages.php">Messages</a>
       </nav>
 
       <div class="icons">
@@ -71,22 +72,32 @@ if (isset($message)) {
    </div>
 
    <!-- Notifications dropdown -->
-   <div id="notifications" class="notifications">
-      <?php
-         foreach ($notifications as $notification) {
-            $notification_id = $notification['id'];
-            $is_read = $notification['is_read'] ? '' : 'unread';
-            echo '
-            <div class="notification ' . $is_read . '" data-id="' . $notification_id . '">
-               <span>' . $notification['message'] . '</span>
-               <i class="fas fa-times" onclick="removeNotification(' . $notification_id . ');"></i>
-            </div>';
-         }
-      ?>
-      <div class="view-all">
-          <a href="notifications.php" class="cbtn">View All Notifications</a>
-      </div>
-   </div>
+    <div id="notifications" class="notifications">
+       <?php
+          foreach ($notifications as $notification) {
+             $notification_id = $notification['id'];
+             $is_read = $notification['is_read'] ? '' : 'unread';
+             echo '
+             <div class="notification ' . $is_read . '" data-id="' .    $notification_id . '">
+                <span>' . $notification['message'] . '</span>
+                <i class="fas fa-times" onclick="removeNotification(' .     $notification_id . ');"></i>
+             </div>';
+          }
+       ?>
+       <div class="view-all">
+           <!--<a href="notifications.php" class="cbtn">View All Notifications</a>-->
+       </div>
+    </div>
+    
+    <style>
+       /* Hide notifications dropdown on small screens */
+       @media (max-width: 768px) {
+          #notifications {
+             display: none;
+          }
+       }
+    </style>
+
 
 </header>
 

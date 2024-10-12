@@ -119,7 +119,7 @@ if(isset($_GET['delete_all'])){
    </div>
 
    <div class="wishlist-total">
-      <p>grand total : <span>$<?= $grand_total; ?>/-</span></p>
+      <p>grand total : <span>Rs.<?= $grand_total; ?>/-</span></p>
       <a href="shop.php" class="option-btn">continue shopping</a>
       <a href="wishlist.php?delete_all" class="delete-btn <?= ($grand_total > 1)?'':'disabled'; ?>">delete all</a>
    </div>

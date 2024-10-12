@@ -35,7 +35,9 @@ if ($user_type !== 'seller') {
    <style>
       /* Custom background color for the body */
       body.custom-bg {
-          background-color: #f4f4f4;
+          background: url('../project images/bg.png') no-repeat center center fixed;
+          background-size: cover;
+          position: relative;
           font-family: Arial, sans-serif;
           margin: 0;
           padding: 0;
@@ -44,13 +46,26 @@ if ($user_type !== 'seller') {
           align-items: center;
           height: 100vh;
       }
+      
+      body.custom-bg::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5); /* Adjust the transparency (0.6 for 60%) */
+          z-index: -1;
+      }
 
       /* Styling the form container */
       .form-container {
           background-color: #fff;
           padding: 20px 40px;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          margin: 2rem;
+          border-radius: 1rem;
+          box-shadow: var(--box-shadow);
+          border: var(--border);
           text-align: center;
           max-width: 400px;
           width: 100%;

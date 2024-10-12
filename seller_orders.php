@@ -45,6 +45,14 @@ $seller_id = $user['id']; // Define seller_id based on fetched user_id
    
 <?php include 'seller_header.php'; ?>
 
+<section class="products">
+       <div class="notice">
+       <p>If your order's payment status is in "Pending", please wait till the admin updates status of payment</p>
+       <br>
+       <p>Your total earnings would be updated once the payment from the customer is "Completed"</p>
+   </div>
+</section>
+
 <section class="placed-orders">
 
    <h1 class="title">Your Orders</h1>
@@ -66,7 +74,7 @@ $seller_id = $user['id']; // Define seller_id based on fetched user_id
          <p> number : <span><?= htmlspecialchars($fetch_orders['number']); ?></span> </p>
          <p> address : <span><?= htmlspecialchars($fetch_orders['address']); ?></span> </p>
          <p> total products : <span><?= htmlspecialchars($fetch_orders['total_products']); ?></span> </p>
-         <p> total price : <span>$<?= htmlspecialchars(number_format($fetch_orders['total_price'], 2)); ?>/-</span> </p>
+         <p> total price : <span>Rs.<?= htmlspecialchars(number_format($fetch_orders['total_price'], 2)); ?>/-</span> </p>
          <p> payment method : <span><?= htmlspecialchars($fetch_orders['method']); ?></span> </p>
          <p> payment status : <span><?= htmlspecialchars($fetch_orders['payment_status']); ?></span> </p>
       </div>

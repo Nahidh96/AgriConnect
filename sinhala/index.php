@@ -33,12 +33,12 @@ if (isset($_COOKIE['language_preference'])) {
                 exit();
             }
             break;
-        case 'tamil':
-            if ($current_page !== 'tamil/index.php') {
-                header('Location: tamil/index.php');
-                exit();
-            }
-            break;
+        // case 'tamil':
+        //     if ($current_page !== 'tamil/index.php') {
+        //         header('Location: tamil/index.php');
+        //         exit();
+        //     }
+        //     break;
         case 'english':
         default:
             // Only redirect if not already on 'index.php'
@@ -245,16 +245,27 @@ if (isset($_POST['add_to_cart'])) {
    </div>
 
    <div class="language-switcher">
-        <button class="lang-btn" onclick="switchLanguage('en')">English</button>
-        <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
+        <button class="lang-btn" onclick="switchLanguage('si')">සිංහල</button>
+        <!--<button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>-->
     </div>
 
-    <script>
-        function switchLanguage(lang) {
-            // Implement language switching logic here
-            alert('Switching to ' + lang);
+<script>
+    function switchLanguage(lang) {
+        let url;
+        switch(lang) {
+            case 'si':
+                url = 'sinhala/index.php';
+                break;
+            case 'ta':
+                url = 'tamil/index.php';
+                break;
+            default:
+                url = 'index.php';
+                break;
         }
-    </script>
+        window.location.href = url;
+    }
+</script>
 
 </section>
 

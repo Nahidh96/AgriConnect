@@ -2,35 +2,57 @@
 @include 'config.php';
 session_start();
 
-$seller_id = $_COOKIE['seller_id'];
-if (!isset($seller_id)) {
-    header('location:seller_login.php');
-    exit;
+// Check if user_id is set in cookies
+$user_id = $_COOKIE['user_id'] ?? null;
+
+if (!$user_id) {
+    header('Location: login.php');
+    exit();
 }
 
-// Verify seller_id exists in users table and is a seller
-$seller_check_query = $conn->prepare("SELECT * FROM users WHERE id = ? AND user_type = 'seller'");
-$seller_check_query->execute([$seller_id]);
-$seller_exists = $seller_check_query->fetch(PDO::FETCH_ASSOC);
+// Fetch seller_id and user_type from the users table
+$select = $conn->prepare("SELECT id, user_type FROM `users` WHERE id = ?");
+$select->execute([$user_id]);
+$user = $select->fetch(PDO::FETCH_ASSOC);
 
-if (!$seller_exists) {
-    die('Error: Seller does not exist.');
+if (!$user || $user['user_type'] !== 'seller') {
+    header('Location: login.php');
+    exit();
 }
 
+$seller_id = $user_id; // Use the authenticated seller_id
+
+// Handle creating a new post
 if (isset($_POST['create_post'])) {
     $title = $_POST['title'];
     $content = $_POST['content'];
 
+    // Sanitize inputs
+    $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+    $content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
+
     $create_post_query = $conn->prepare("INSERT INTO forum_posts (seller_id, title, content) VALUES (?, ?, ?)");
-    $create_post_query->execute([$seller_id, $title, $content]);
+    if ($create_post_query->execute([$seller_id, $title, $content])) {
+        $message = "Post created successfully.";
+    } else {
+        $message = "Error creating post.";
+    }
 }
 
+// Handle adding a comment
 if (isset($_POST['add_comment'])) {
     $post_id = $_POST['post_id'];
     $comment = $_POST['comment'];
 
+    // Sanitize inputs
+    $comment = htmlspecialchars($comment, ENT_QUOTES, 'UTF-8');
+
     $add_comment_query = $conn->prepare("INSERT INTO forum_comments (post_id, seller_id, comment) VALUES (?, ?, ?)");
-    $add_comment_query->execute([$post_id, $seller_id, $comment]);
+    if ($add_comment_query->execute([$post_id, $seller_id, $comment])) {
+        $message = "Comment added successfully.";
+    } else {
+        $message = "Error adding comment.";
+    }
 }
 
 // Fetch posts and their authors
@@ -53,6 +75,8 @@ $posts = $posts_query->fetchAll(PDO::FETCH_ASSOC);
 <section class="forum">
     <h1 class="title">Community Forum</h1>
     
+    <?php if (isset($message)) { echo "<p>$message</p>"; } ?>
+
     <form action="" method="post" class="create-post">
         <h2>Create a New Post</h2>
         <input type="text" name="title" placeholder="Post Title" required>
@@ -63,9 +87,9 @@ $posts = $posts_query->fetchAll(PDO::FETCH_ASSOC);
     <div class="posts">
         <?php foreach ($posts as $post) { ?>
             <div class="post">
-                <h2><?= $post['title']; ?></h2>
-                <p><?= $post['content']; ?></p>
-                <small>Posted by <?= $post['seller_name']; ?> on <?= $post['created_at']; ?></small>
+                <h2><?= htmlspecialchars($post['title']); ?></h2>
+                <p><?= htmlspecialchars($post['content']); ?></p>
+                <small>Posted by <?= htmlspecialchars($post['seller_name']); ?> on <?= htmlspecialchars($post['created_at']); ?></small>
                 
                 <div class="comments">
                     <?php
@@ -76,14 +100,14 @@ $posts = $posts_query->fetchAll(PDO::FETCH_ASSOC);
                     ?>
                     <?php foreach ($comments as $comment) { ?>
                         <div class="comment">
-                            <p><?= $comment['comment']; ?></p>
-                            <small>Commented by <?= $comment['seller_name']; ?> on <?= $comment['created_at']; ?></small>
+                            <p><?= htmlspecialchars($comment['comment']); ?></p>
+                            <small>Commented by <?= htmlspecialchars($comment['seller_name']); ?> on <?= htmlspecialchars($comment['created_at']); ?></small>
                         </div>
                     <?php } ?>
 
                     <form action="" method="post" class="add-comment">
                         <textarea name="comment" placeholder="Add a comment" required></textarea>
-                        <input type="hidden" name="post_id" value="<?= $post['id']; ?>">
+                        <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']); ?>">
                         <input type="submit" name="add_comment" value="Add Comment" class="btn">
                     </form>
                 </div>

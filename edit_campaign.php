@@ -1,20 +1,36 @@
 <?php
 @include 'config.php';
+
 session_start();
 
-$seller_id = $_COOKIE['seller_id'];
-if (!isset($seller_id)) {
-    header('location:seller_login.php');
+// Check if user_id is set in cookies
+$user_id = $_COOKIE['user_id'] ?? null;
+
+if (!$user_id) {
+    header('Location: login.php');
+    exit();
 }
+
+// Fetch seller_id and user_type from the users table
+$select = $conn->prepare("SELECT id, user_type FROM `users` WHERE id = ?");
+$select->execute([$user_id]);
+$user = $select->fetch(PDO::FETCH_ASSOC);
+
+if (!$user || $user['user_type'] !== 'seller') {
+    header('Location: login.php');
+    exit();
+}
+
+$seller_id = $user['id'];
 
 if (isset($_GET['id'])) {
     $campaign_id = $_GET['id'];
-    
+
     // Fetch campaign details
-    $campaign_query = $conn->prepare("SELECT * FROM `marketing_campaigns` WHERE `id` = ? AND `seller_id` = ?");
+    $campaign_query = $conn->prepare("SELECT * FROM `campaigns` WHERE `id` = ? AND `seller_id` = ?");
     $campaign_query->execute([$campaign_id, $seller_id]);
     $campaign = $campaign_query->fetch(PDO::FETCH_ASSOC);
-    
+
     if (!$campaign) {
         die('Campaign not found.');
     }
@@ -22,14 +38,11 @@ if (isset($_GET['id'])) {
 
 if (isset($_POST['update_campaign'])) {
     $campaign_name = $_POST['campaign_name'];
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
-    $budget = $_POST['budget'];
     $description = $_POST['description'];
 
     // Update campaign details
-    $update_query = $conn->prepare("UPDATE `marketing_campaigns` SET `name` = ?, `start_date` = ?, `end_date` = ?, `budget` = ?, `description` = ? WHERE `id` = ? AND `seller_id` = ?");
-    $update_query->execute([$campaign_name, $start_date, $end_date, $budget, $description, $campaign_id, $seller_id]);
+    $update_query = $conn->prepare("UPDATE `campaigns` SET `campaign_name` = ?, `campaign_description` = ? WHERE `id` = ? AND `seller_id` = ?");
+    $update_query->execute([$campaign_name, $description, $campaign_id, $seller_id]);
 
     $message = "Campaign updated successfully.";
 }
@@ -50,15 +63,9 @@ if (isset($_POST['update_campaign'])) {
     <h1 class="title">Edit Campaign</h1>
     <form action="" method="post">
         <label for="campaign_name">Campaign Name:</label>
-        <input type="text" name="campaign_name" id="campaign_name" value="<?= htmlspecialchars($campaign['name']); ?>" required>
-        <label for="start_date">Start Date:</label>
-        <input type="date" name="start_date" id="start_date" value="<?= htmlspecialchars($campaign['start_date']); ?>" required>
-        <label for="end_date">End Date:</label>
-        <input type="date" name="end_date" id="end_date" value="<?= htmlspecialchars($campaign['end_date']); ?>" required>
-        <label for="budget">Budget (Rs):</label>
-        <input type="number" name="budget" id="budget" value="<?= htmlspecialchars($campaign['budget']); ?>" required>
+        <input type="text" name="campaign_name" id="campaign_name" value="<?= htmlspecialchars($campaign['campaign_name']); ?>" required>
         <label for="description">Description:</label>
-        <textarea name="description" id="description" rows="4" required><?= htmlspecialchars($campaign['description']); ?></textarea>
+        <textarea name="description" id="description" rows="4" required><?= htmlspecialchars($campaign['campaign_description']); ?></textarea>
         <input type="submit" name="update_campaign" value="Update Campaign" class="btn">
         <?php if (isset($message)) { echo "<p>$message</p>"; } ?>
     </form>

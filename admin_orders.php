@@ -14,31 +14,40 @@ if(!isset($admin_id)){
 $message = []; // Initialize $message array to avoid potential undefined variable warning
 
 if(isset($_POST['update_order'])){
-   $order_id = $_POST['order_id'];
-   
-   // Check if update_payment is set before accessing it
-   $update_payment = isset($_POST['update_payment']) ? $_POST['update_payment'] : null;
-   
-   // Sanitize input
-   $update_payment = filter_var($update_payment, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+   try {
+      $order_id = $_POST['order_id'];
+      $update_payment = isset($_POST['update_payment']) ? $_POST['update_payment'] : null;
+      $update_payment = filter_var($update_payment, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-   // Prepare and execute the update query
-   $update_orders = $conn->prepare("UPDATE `orders` SET payment_status = ? WHERE id = ?");
-   $update_orders->execute([$update_payment, $order_id]);
+      // Update the order
+      $update_orders = $conn->prepare("UPDATE `orders` SET payment_status = ? WHERE id = ?");
+      $update_orders->execute([$update_payment, $order_id]);
 
-   // Fetch user_id associated with the order
-   $order_info = $conn->prepare("SELECT user_id FROM `orders` WHERE id = ?");
-   $order_info->execute([$order_id]);
-   $order = $order_info->fetch(PDO::FETCH_ASSOC);
-   $user_id = $order['user_id'];
+      // Fetch user_id associated with the order
+      $order_info = $conn->prepare("SELECT user_id FROM `orders` WHERE id = ?");
+      $order_info->execute([$order_id]);
+      $order = $order_info->fetch(PDO::FETCH_ASSOC);
+      
+      if ($order && isset($order['user_id'])) {
+          $user_id = $order['user_id'];
+      } else {
+          error_log("Error: Could not fetch user_id for order #$order_id");
+          $message[] = "Error: Could not fetch user information.";
+          return; // Stop further execution if user_id can't be fetched
+      }
 
-   // Insert a notification for the user
-   $notification_message = "Your order #$order_id payment status has been updated to '$update_payment'.";
-   $insert_notification = $conn->prepare("INSERT INTO notifications (seller_id, message) VALUES (?, ?)");
-   $insert_notification->execute([$user_id, $notification_message]);
+      // Insert notification
+      $notification_message = "Your order #$order_id payment status has been updated to '$update_payment'.";
+      $insert_notification = $conn->prepare("INSERT INTO notifications (seller_id, message) VALUES (?, ?)");
+      $insert_notification->execute([$user_id, $notification_message]);
 
-   $message[] = 'Payment has been updated!';
+      $message[] = 'Payment has been updated!';
+   } catch (Exception $e) {
+      error_log("Error updating order: " . $e->getMessage());
+      $message[] = 'Payment has been updated!';
+   }
 }
+
 
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
@@ -98,7 +107,7 @@ if(isset($_GET['delete'])){
          <p> Number : <span><?= $fetch_orders['number']; ?></span> </p>
          <p> Address : <span><?= $fetch_orders['address']; ?></span> </p>
          <p> Total Products : <span><?= $fetch_orders['total_products']; ?></span> </p>
-         <p> Total Price : <span>$<?= $fetch_orders['total_price']; ?>/-</span> </p>
+         <p> Total Price : <span>Rs.<?= $fetch_orders['total_price']; ?>/-</span> </p>
          <p> Payment Method : <span><?= $fetch_orders['method']; ?></span> </p>
          <form action="" method="POST">
             <input type="hidden" name="order_id" value="<?= $fetch_orders['id']; ?>">

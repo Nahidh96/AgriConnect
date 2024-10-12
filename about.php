@@ -18,15 +18,20 @@ if(!isset($user_id)){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>About | AgriConnect</title>
-
+   <meta name="description" content="Learn more about Agriconnect and our mission to promote organic farming and sustainable agriculture. Discover how we connect farmers and consumers in Sri Lanka.">
+   <meta name="keywords" content="about us, Agriconnect, organic farming, sustainable agriculture, Sri Lanka, Nahidh Naseem">
+   <meta name="robots" content="index, follow">
+   <link rel="canonical" href="https://www.agriconnect.lk/about">
+   <meta name="author" content="Nahidh Naseem | Agriconnect Team">
+   <title>About | Agriconnect</title>
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
-
+   <!-- favicon -->
+   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 </head>
+
 <body>
    
 <?php include 'header.php'; ?>

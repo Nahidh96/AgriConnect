@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include 'config.php';
 
 if (isset($_POST['login'])) {
@@ -8,7 +10,7 @@ if (isset($_POST['login'])) {
     $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     // Check user credentials
-    $select = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ?");
+    $select = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
     $select->execute([$email, $pass]);
 
     if ($select->rowCount() > 0) {
@@ -17,8 +19,14 @@ if (isset($_POST['login'])) {
         $user_type = $user['user_type'];
 
         // Set cookies for user session
-        $cookie_expiration_time = time() + (86400 * 30); // 30 days expiry
+        $cookie_expiration_time = time() + (86400 * 90); // 30 days expiry
         setcookie('user_id', $user_id, $cookie_expiration_time, "/");
+        if (isset($_COOKIE['user_id'])) {
+            echo 'Cookie is set! User ID: ' . $_COOKIE['user_id'];
+        } else {
+            echo 'Failed to set cookie.';
+        }
+
 
         // Redirect based on user type
         if ($user_type === 'seller') {
@@ -40,15 +48,20 @@ if (isset($_POST['login'])) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Login</title>
-
+   <meta name="description" content="Login to Agriconnect to manage your organic farming products and orders. Secure access for sellers and buyers.">
+   <meta name="keywords" content="login, Agriconnect, organic farming, seller login, buyer login, Nahidh Naseem">
+   <meta name="robots" content="noindex, nofollow">
+   <link rel="canonical" href="https://www.agriconnect.lk/login">
+   <meta name="author" content="Nahidh Naseem | Agriconnect Team">
+   <title>Login | Agriconnect</title>
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/components.css">
-
+   <link rel="stylesheet" href="css/style.css">
+   <!-- favicon -->
+   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 </head>
+
 <body class="custom-bg">
 
 <?php

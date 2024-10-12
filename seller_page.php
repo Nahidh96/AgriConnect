@@ -93,17 +93,39 @@ $seller_id = $user['id']; // Set seller_id based on fetched user_id
       </div>
 
       <div class="box">
-      <h3>Recent Orders</h3>
+      <h3>Sales Trends</h3>
+      <canvas id="salesChart"></canvas>
       <?php
-         $recent_orders = $conn->prepare("SELECT * FROM `orders` WHERE seller_id = ? ORDER BY placed_on DESC LIMIT 5");
-         $recent_orders->execute([$seller_id]);
-         while($fetch_recent_orders = $recent_orders->fetch(PDO::FETCH_ASSOC)){
-      ?>
-      <p> Order ID: <?= $fetch_recent_orders['id']; ?> | Placed on: <?= $fetch_recent_orders['placed_on']; ?> | Total: Rs. <?= number_format($fetch_recent_orders['total_price'], 2); ?>/- </p>
-      <?php
+         // Fetch data for the chart
+         $sales_data = [];
+         $sales_query = $conn->prepare("SELECT DATE(placed_on) as date, SUM(total_price) as total_sales FROM `orders` WHERE seller_id = ? GROUP BY DATE(placed_on) ORDER BY date DESC LIMIT 7");
+         $sales_query->execute([$seller_id]);
+         while($fetch_sales = $sales_query->fetch(PDO::FETCH_ASSOC)){
+            $sales_data[] = $fetch_sales;
          }
       ?>
-      <a href="seller_orders.php" class="btn">See All Orders</a>
+      <script>
+         var ctx = document.getElementById('salesChart').getContext('2d');
+         var salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+               labels: [<?php foreach($sales_data as $data) { echo '"' . $data['date'] . '",'; } ?>],
+               datasets: [{
+                  label: 'Sales',
+                  data: [<?php foreach($sales_data as $data) { echo $data['total_sales'] . ','; } ?>],
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+               }]
+            },
+            options: {
+               scales: {
+                  y: {
+                     beginAtZero: true
+                  }
+               }
+            }
+         });
+      </script>
       </div>
 
       <!-- Promotions and Discounts -->
@@ -162,41 +184,19 @@ $seller_id = $user['id']; // Set seller_id based on fetched user_id
       ?>
       <a href="seller_products.php" class="btn">See All Products</a>
       </div>
-
+      
       <div class="box">
-      <h3>Sales Trends</h3>
-      <canvas id="salesChart"></canvas>
+      <h3>Recent Orders</h3>
       <?php
-         // Fetch data for the chart
-         $sales_data = [];
-         $sales_query = $conn->prepare("SELECT DATE(placed_on) as date, SUM(total_price) as total_sales FROM `orders` WHERE seller_id = ? GROUP BY DATE(placed_on) ORDER BY date DESC LIMIT 7");
-         $sales_query->execute([$seller_id]);
-         while($fetch_sales = $sales_query->fetch(PDO::FETCH_ASSOC)){
-            $sales_data[] = $fetch_sales;
+         $recent_orders = $conn->prepare("SELECT * FROM `orders` WHERE seller_id = ? ORDER BY placed_on DESC LIMIT 5");
+         $recent_orders->execute([$seller_id]);
+         while($fetch_recent_orders = $recent_orders->fetch(PDO::FETCH_ASSOC)){
+      ?>
+      <p> Order ID: <?= $fetch_recent_orders['id']; ?> | Placed on: <?= $fetch_recent_orders['placed_on']; ?> | Total: Rs. <?= number_format($fetch_recent_orders['total_price'], 2); ?>/- </p>
+      <?php
          }
       ?>
-      <script>
-         var ctx = document.getElementById('salesChart').getContext('2d');
-         var salesChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-               labels: [<?php foreach($sales_data as $data) { echo '"' . $data['date'] . '",'; } ?>],
-               datasets: [{
-                  label: 'Sales',
-                  data: [<?php foreach($sales_data as $data) { echo $data['total_sales'] . ','; } ?>],
-                  borderColor: 'rgba(75, 192, 192, 1)',
-                  borderWidth: 1
-               }]
-            },
-            options: {
-               scales: {
-                  y: {
-                     beginAtZero: true
-                  }
-               }
-            }
-         });
-      </script>
+      <a href="seller_orders.php" class="btn">See All Orders</a>
       </div>
 
       <!-- Inventory Management -->
